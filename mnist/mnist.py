@@ -27,7 +27,6 @@ class DataGenerator:
 
     def feed_train(self):
         data = enumerate(self.train_data)
-        print(len(data))
         count = 0
         for id, (instance,label) in data:
             print(id)
