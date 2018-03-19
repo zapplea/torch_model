@@ -52,7 +52,6 @@ class Classifier():
     def __init__(self, nn_config,data_config):
         self.nn_config=nn_config
 
-
     def classifier(self):
         pass
 
