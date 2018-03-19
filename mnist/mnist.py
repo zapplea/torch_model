@@ -61,6 +61,6 @@ class Classifier():
 
 if __name__ == "__main__":
     data_config = {'batch_size':30,'cuda':True,
-                   'data_filePath':'/datastore/liu121/torch_data'}
+                   'data_filePath':'/media/data2tb1/yibing/nosqldb/tr_data/MNIST'}
     dg = DataGenerator(data_config)
     dg.feed_train()
