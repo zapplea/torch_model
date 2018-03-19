@@ -14,4 +14,4 @@ module load cudnn/v6
 module load cuda/8.0.61
 module load pytorch/0.3.1-py36
 echo "loaded"
-python mnist
+python mnist.py
