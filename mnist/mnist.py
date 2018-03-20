@@ -27,6 +27,7 @@ class DataGenerator:
         return train_data, test_data
 
     def feed_train(self):
+        print(type(self.train_data))
         data = enumerate(self.train_data)
         return data
         # for id, (instances,labels) in data:
@@ -60,4 +61,3 @@ if __name__ == "__main__":
                    'data_filePath':'/media/data2tb1/yibing/nosqldb/tr_data/MNIST'}
     dg = DataGenerator(data_config)
     data = dg.feed_train()
-    print(type(data))
