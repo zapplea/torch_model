@@ -1,6 +1,7 @@
 import torch as tr
 import torch.nn.functional as F
 from torchvision import datasets, transforms
+import numpy
 
 class DataGenerator:
     def __init__(self,data_config):
@@ -27,16 +28,12 @@ class DataGenerator:
 
     def feed_train(self):
         data = enumerate(self.train_data)
-        count = 0
-        for id, (instance,label) in data:
-            print(id)
-            print(instance)
-            print(label)
-            count+=1
-            if count == 1:
-                break
-        # for batch_id, (data,target) in enumerate(self.train_data):
-        #     print(data)
+        return data
+        # for id, (instances,labels) in data:
+        #     return instances, labels
+
+    def feed_test(self):
+        data = enumerate(self.test_data)
 
 
 class Net(tr.nn.Module):
@@ -62,4 +59,5 @@ if __name__ == "__main__":
     data_config = {'batch_size':30,'cuda':True,
                    'data_filePath':'/media/data2tb1/yibing/nosqldb/tr_data/MNIST'}
     dg = DataGenerator(data_config)
-    dg.feed_train()
+    data = dg.feed_train()
+    print(type(data))
