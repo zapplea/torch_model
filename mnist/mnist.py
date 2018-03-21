@@ -63,6 +63,8 @@ if __name__ == "__main__":
     train_data,test_data = dg.data_loader()
     for batch_id, (X,Y_) in enumerate(train_data):
         print(X.size())
+        print(X)
         X = X.view(30,28,28)
         print(X.size())
+        print(X)
         break
