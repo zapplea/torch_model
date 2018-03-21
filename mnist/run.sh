@@ -1,3 +1,3 @@
 #!/bin/bash
 
-python mnist.py
+python mnist_example.py
