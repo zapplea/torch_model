@@ -60,7 +60,6 @@ if __name__ == "__main__":
     data_config = {'batch_size':30,'cuda':True,
                    'data_filePath':'/media/data2tb1/yibing/nosqldb/tr_data/MNIST'}
     dg = DataGenerator(data_config)
-    instances, labels = dg.feed_train()
     train_data,test_data = dg.data_loader()
     for batch_id, (X,Y_) in enumerate(train_data):
         print(X.size())
