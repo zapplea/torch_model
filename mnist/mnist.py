@@ -12,11 +12,11 @@ class DataGenerator:
         kwargs = {'num_workers': 1, 'pin_memory': True} if self.data_config['cuda'] else {}
         train_data = tr.utils.data.DataLoader(
             datasets.MNIST(self.data_config['data_filePath'], train=True, download=True,
-                           transform=transforms.ToTensor()
+                           transform=transforms.ToTensor()),
             batch_size=self.data_config['batch_size'], shuffle=True, **kwargs)
         test_data = tr.utils.data.DataLoader(
             datasets.MNIST(self.data_config['data_filePath'], train=False,
-                           transform=transforms.ToTensor()
+                           transform=transforms.ToTensor()),
             batch_size=self.data_config['batch_size'], shuffle=True, **kwargs)
         return train_data, test_data
 
