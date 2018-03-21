@@ -44,6 +44,8 @@ class Net(tr.nn.Module):
         :param X: (batch size, feature dim)
         :return: 
         """
+        X = X.view(-1,784)
+        tr.nn.functional.linear()
 
 class Classifier():
     def __init__(self, nn_config,data_config):
@@ -64,7 +66,7 @@ if __name__ == "__main__":
     for batch_id, (X,Y_) in enumerate(train_data):
         print(X.size())
         print(X)
-        X = X.view(30,28,28)
+        X = X.view(-1,784)
         print(X.size())
         print(X)
         break
