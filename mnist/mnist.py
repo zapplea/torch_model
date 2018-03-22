@@ -50,7 +50,7 @@ class Net(tr.nn.Module):
 
     def loss(self,X,y_):
         score = self.forward(X)
-        tr.mul(score,y_)
+        tr.sum(tr.mul(score,y_),dim=)
 
     def prediction(self,X):
         score = self.forward(X)
