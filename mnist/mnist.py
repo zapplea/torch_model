@@ -2,6 +2,7 @@ import torch as tr
 import torch.nn.functional as F
 from torchvision import datasets, transforms
 import numpy
+import sklearn.metrics as metrics
 
 class DataGenerator:
     def __init__(self,data_config):
@@ -23,10 +24,10 @@ class DataGenerator:
         return train_data, test_data
 
     def feed_train(self):
-        return self.train_data
+        return enumerate(self.train_data)
 
     def feed_test(self):
-        return self.test_data
+        return enumerate(self.test_data)
 
 
 class Net(tr.nn.Module):
@@ -43,23 +44,51 @@ class Net(tr.nn.Module):
         X = X.view(-1,784)
         W = tr.autograd.Variable(tr.randn(1000,784))
         bias = tr.autograd.Variable(tr.zeros())
-        h = tr.nn.functional.linear(X,W,bias=bias)
-        tr.nn.Softmax(h)
+        h = F.tanh(F.linear(X,W,bias=bias))
+        score = F.softmax(h,dim=-1)
+        return score
+
+    def loss(self,X,y_):
+        score = self.forward(X)
+        tr.mul(score,y_)
+
+    def prediction(self,X):
+        score = self.forward(X)
+        values,indices = tr.max(score)
+        return indices
 
 class Classifier():
     def __init__(self, nn_config,data_config):
-        self.nn_config=nn_config
+        self.nn_config = nn_config
+        self.data_config = data_config
+        self.dg = DataGenerator(data_config)
 
     def classifier(self):
-        pass
+        if self.nn_config['cuda']:
+            net = Net(self.nn_config).cuda(0)
+        else:
+            net =Net(self.nn_config)
+        return net
 
     def train(self):
-        pass
+        graph = self.classifier()
+        train_data = self.dg.feed_train()
+        test_data = self.dg.feed_test()
+        for batch_id,(X,y_) in train_data:
+            if self.nn_config['cuda']:
+                X = X.cuda()
+            graph.forward(X)
 
 
 if __name__ == "__main__":
-    data_config = {'batch_size':1,'cuda':False,
+    cuda = True
+    batch_size = 30
+    data_config = {'batch_size':batch_size,
+                   'cuda':cuda,
                    'data_filePath':'/media/data2tb1/yibing/nosqldb/tr_data/MNIST'}
+    nn_config = {'batch_size':batch_size,
+                 'cuda':cuda,
+                 'epoch':1000}
     dg = DataGenerator(data_config)
     train_data,test_data = dg.data_loader()
     for batch_id, (X,Y_) in enumerate(train_data):
