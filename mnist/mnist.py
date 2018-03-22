@@ -49,8 +49,9 @@ class Net(tr.nn.Module):
         return score
 
     def loss(self,X,y_):
+        Y = tr.zeros(self.nn_config['batch_size'],self.nn_config['labels_num']).scatter_(1,y_,1)
         score = self.forward(X)
-        tr.sum(tr.mul(score,y_),dim=)
+        tr.sum(tr.mul(score,y_),dim=1)
 
     def prediction(self,X):
         score = self.forward(X)
@@ -87,6 +88,7 @@ if __name__ == "__main__":
                    'cuda':cuda,
                    'data_filePath':'/media/data2tb1/yibing/nosqldb/tr_data/MNIST'}
     nn_config = {'batch_size':batch_size,
+                 'labels_num':10,
                  'cuda':cuda,
                  'epoch':1000}
     dg = DataGenerator(data_config)
