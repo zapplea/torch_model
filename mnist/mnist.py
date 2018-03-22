@@ -94,8 +94,4 @@ if __name__ == "__main__":
     dg = DataGenerator(data_config)
     train_data,test_data = dg.data_loader()
     for batch_id, (X,Y_) in enumerate(train_data):
-        # print(X.size())
-        # print(X)
-        X = X.view(-1,784)
-        print(X.size())
-        print(X)
+        print(Y_)
