@@ -1,7 +1,7 @@
 import torch as tr
 import torch.nn.functional as F
 from torchvision import datasets, transforms
-import numpy
+import numpy as np
 import sklearn.metrics as metrics
 
 class DataGenerator:
@@ -49,20 +49,43 @@ class Net(tr.nn.Module):
         return score
 
     def loss(self,X,y_):
-        Y = tr.zeros(self.nn_config['batch_size'],self.nn_config['labels_num']).scatter_(1,y_,1)
+        """
+        
+        :param X: 
+        :param y_: (batch size,)
+        :return: 
+        """
+        # y_.shape = (batch size, 1)
+        y_=tr.unsqueeze(y_,dim=1)
+        Y_ = tr.zeros(self.nn_config['batch_size'],self.nn_config['labels_num']).scatter_(1,y_,1)
         score = self.forward(X)
-        tr.sum(tr.mul(score,y_),dim=1)
+        loss = tr.mean(tr.sum(tr.mul(score,Y_),dim=1))
+        return loss
 
-    def prediction(self,X):
-        score = self.forward(X)
-        values,indices = tr.max(score)
-        return indices
+    def prediction(self,score):
+        """
+        
+        :param score: (batch size, number of labels)
+        :return: 
+        """
+        pred = np.argmax(score.cpu().numpy(),axis=1)
+        return pred
+
+class Metrics():
+    @staticmethod
+    def accuracy(y_,y):
+        acc = metrics.accuracy_score(y_,y)
+        return acc
 
 class Classifier():
     def __init__(self, nn_config,data_config):
         self.nn_config = nn_config
         self.data_config = data_config
         self.dg = DataGenerator(data_config)
+
+    def optimizer(self,net):
+        optim = tr.optim.SGD(net.parameters(),lr=self.nn_config['lr'],weight_decay=self.nn_config['weight_decay'])
+        return optim
 
     def classifier(self):
         if self.nn_config['cuda']:
@@ -71,15 +94,40 @@ class Classifier():
             net =Net(self.nn_config)
         return net
 
+    def report(self,info):
+        with open(self.nn_config['report'],'a+') as f:
+            f.write('epoch:{}, accuracy:{}'.format(info['epoch'],info['accuracy']))
+
     def train(self):
         graph = self.classifier()
+        if self.nn_config['cuda']:
+            graph.cuda()
         train_data = self.dg.feed_train()
         test_data = self.dg.feed_test()
-        for batch_id,(X,y_) in train_data:
-            if self.nn_config['cuda']:
-                X = X.cuda()
-            graph.forward(X)
+        optim = self.optimizer(graph)
 
+        for epoch in range(self.nn_config['epoch']):
+            for batch_id,(X,y_) in train_data:
+                if self.nn_config['cuda']:
+                    X = X.cuda()
+                    y_= y_.cuda()
+                optim.zero_grad()
+                X = tr.autograd.Variable(X)
+                y_ = tr.autograd.Variable(y_)
+                loss = graph.loss(X,y_)
+                loss.backward()
+                optim.step()
+            accuracy_collection = []
+            for batch_id,(X,y_) in test_data:
+                if self.nn_config['cuda']:
+                    X = X.cuda()
+                score = graph.forward(X)
+                # y.type = numpy
+                y = graph.prediction(score)
+                accuracy_collection.append(Metrics.accuracy(y_,y))
+            accuracy = np.mean(accuracy_collection)
+            info = {'accuracy':accuracy,'epoch':epoch}
+            self.report(info)
 
 if __name__ == "__main__":
     cuda = True
@@ -90,7 +138,9 @@ if __name__ == "__main__":
     nn_config = {'batch_size':batch_size,
                  'labels_num':10,
                  'cuda':cuda,
-                 'epoch':1000}
+                 'epoch':1000,
+                 'lr':0.003,
+                 'weight_decay':0.00003}
     dg = DataGenerator(data_config)
     train_data,test_data = dg.data_loader()
     for batch_id, (X,Y_) in enumerate(train_data):
