@@ -140,7 +140,8 @@ if __name__ == "__main__":
                  'cuda':cuda,
                  'epoch':1000,
                  'lr':0.003,
-                 'weight_decay':0.00003}
+                 'weight_decay':0.00003,
+                 'report':'/'}
     dg = DataGenerator(data_config)
     train_data,test_data = dg.data_loader()
     for batch_id, (X,Y_) in enumerate(train_data):
