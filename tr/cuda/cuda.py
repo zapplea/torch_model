@@ -14,4 +14,4 @@ with tr.cuda.device(0):
     X = X.cuda()
     print(X.get_device())
     outputs = module.forward(X)
-    print(outputs.data.numpy())
+    print(outputs.cpu().data.numpy())
