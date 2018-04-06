@@ -9,6 +9,6 @@ class Net(tr.nn.Module):
 module= Net()
 module.cuda(device=0)
 X = tr.ones((3,3))
-X.cuda(0)
+X.cuda()
 outputs = module.forward(X)
 print(outputs.cpu().data.numpy())
