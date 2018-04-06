@@ -2,7 +2,7 @@ import torch as tr
 import torch.nn.functional as F
 
 class Net(tr.nn.Module):
-    def foward(self,X):
+    def forward(self,X):
         result = F.softmax(tr.autograd.Variable(X,requires_grad=False),dim=1)
         return result
 
