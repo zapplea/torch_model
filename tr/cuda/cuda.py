@@ -12,7 +12,7 @@ with tr.cuda.device(0):
     module.cuda()
     X = tr.ones((3,3))
     X = X.cuda()
-    print(X.cpu().numpy())
+    print(X.numpy())
     print(X.get_device())
     y = tr.add(tr.autograd.Variable(X),tr.autograd.Variable(X))
     print(y.get_device())
