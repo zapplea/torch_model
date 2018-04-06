@@ -32,7 +32,6 @@ class Cascading:
 
     def prediction(self,score):
         # TODO: need to use u>theta to compute which is predicted label
-        score = score.data.numpy()
         condition = np.greater_equal(score,np.array(self.nn_config['theta'],dtype='float32'))
         score = np.where(condition,score,np.zeros_like(score,dtype='float32'))
         pred_labels=[]
@@ -90,7 +89,7 @@ class Cascading:
         knn_labels = []
         for i in range(pred_labels.shape[0]):
             if pred_labels[i] == -1:
-                knn_features.append(X[i].numpy())
+                knn_features.append(X[i])
                 knn_labels.append(true_lables[i])
         return knn_features,knn_labels
 
@@ -102,16 +101,15 @@ class Cascading:
                 X,y_ = X.cuda(),y_.cuda()
             score = model.forward(self,tr.autograd.Variable(X,requires_grad=False))
             loss = self.cross_entropy_loss(score,tr.autograd.Variable(y_,requires_grad=False))
-            pred_labels = self.prediction(score)
             if self.nn_config['cuda'] and tr.cuda.is_available():
-                knn_features,knn_labels = self.knn_matrix_generator(y_.cpu().numpy().astype('float32'),pred_labels,X)
-            else:
-                knn_features, knn_labels = self.knn_matrix_generator(y_.numpy().astype('float32'), pred_labels, X)
-            f1,accuracy = self.metrics(y_.numpy().astype('float32'),pred_labels)
-            if self.nn_config['cuda'] and tr.cuda.is_available():
-                f.write('Validation: loss:{:.4f}, accuracy:{:.4f}, f1:{:.4f}'.format(loss.cpu().data.numpy(),f1,accuracy))
-            else:
-                f.write('Validation: loss:{:.4f}, accuracy:{:.4f}, f1:{:.4f}'.format(loss.data.numpy(), f1, accuracy))
+                score = score.cpu()
+                y_= y_.cpu()
+                X = X.cpu()
+                loss = loss.cpu()
+            pred_labels = self.prediction(score.numpy())
+            knn_features, knn_labels = self.knn_matrix_generator(y_.numpy().astype('float32'), pred_labels, X.numpy())
+            f1, accuracy = self.metrics(y_.numpy().astype('float32'), pred_labels)
+            f.write('Validation: loss:{:.4f}, accuracy:{:.4f}, f1:{:.4f}'.format(loss.data.numpy(), f1, accuracy))
         f.close()
         return knn_features,knn_labels
 
@@ -134,10 +132,19 @@ class Cascading:
         f=open(self.nn_config['report_filePath'],'a+')
         test_data =self.df.test_feeder()
         for X, y_ in test_data:
+            if self.nn_config['cuda'] and tr.cuda.is_available():
+                X,y_ = X.cuda(),y_.cuda()
             score = model.forward(tr.autograd.Variable(X,requires_grad=True))
             loss = self.cross_entropy_loss(score,tr.autograd.Variable(y_,requires_grad=False))
-            pred_labels = self.prediction(score)
-            pred_labels = self.knn(knn_features,knn_labels,X,pred_labels)
+
+            if self.nn_config['cuda'] and tr.cuda.is_available():
+                score = score.cpu()
+                y_= y_.cpu()
+                X = X.cpu()
+                loss = loss.cpu()
+
+            pred_labels = self.prediction(score.numpy())
+            pred_labels = self.knn(knn_features,knn_labels,X.numpy(),pred_labels)
             f1,accuracy = self.metrics(true_labels=y_.numpy().astype('float32'),pred_labels=pred_labels)
             f.write('Test: loss:{:.4f}, accuracy:{:.4f}, f1:{:.4f}'.format(loss.data.numpy(), f1, accuracy))
         f.close()
