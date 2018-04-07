@@ -1,6 +1,7 @@
-import numpy as np
+import random
 import pickle
 import numpy as np
+
 
 class DataGenerator:
     def generator(self):
@@ -24,7 +25,7 @@ class DataGenerator:
                 label = float(ls[-1])
                 train_data.append((np.array(feature,'float32'),np.array(label,'int64')))
         with open('data.pkl','wb') as f:
-            pickle.dump({'test_data':test_data,'train_data':train_data},f)
+            pickle.dump({'test_data':random.shuffle(test_data),'train_data':random.shuffle(train_data)},f)
 
 if __name__=="__main__":
     dg = DataGenerator()

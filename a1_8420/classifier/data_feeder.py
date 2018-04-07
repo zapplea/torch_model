@@ -41,6 +41,31 @@ class DataFeeder:
                               shuffle='True')
         return dataiter
 
+    def prototype_feeder(self,k_shot):
+        matrix = self.train_data[self.data_config['train_data_len']:(self.data_config['train_data_len']+self.data_config['validation_data_len'])]
+        prototypes_freq = {}
+        prototypes = {}
+        if k_shot == None:
+            k_shot = float('inf')
+        for i in range(len(matrix)):
+            prototype = matrix[i][0]
+            label = int(matrix[i][1])
+            if label not in prototypes_freq:
+                prototypes_freq[label]=1
+                prototypes[label]=prototype
+            else:
+                if prototypes_freq[label]<k_shot:
+                    prototypes_freq[label]+=1
+                    prototypes[label]+=prototype
+        for label in prototypes:
+            prototypes[label] = (prototypes[label]/np.array(prototypes_freq[label],'float32')).astype('float32')
+        prototypes_ls = []
+        for i in range(10):
+            prototypes_ls.append(prototypes[i])
+        return prototypes_ls
+
+
+
     def test_feeder(self):
         dataiter = DataLoader(myDataset(self.test_data),batch_size=self.data_config['test_data_len'],shuffle='True')
         return dataiter

@@ -7,12 +7,12 @@ class Net(tr.nn.Module):
     def __init__(self,nn_config):
         super(Net,self).__init__()
         self.nn_config = nn_config
+        in_dim = self.nn_config['feature_dim']
+        out_dim = self.nn_config['label_dim']
+        self.linear = tr.nn.Linear(in_dim,out_dim)
 
     def foward(self,X):
-        in_dim = self.nn_config['feature_dim']
-        out_dim = self.nn_config['layer_dim'][0]
-        W = tr.autograd.Variable(tr.randn((in_dim,out_dim)),requires_grad=True)
-        linear_layer = tr.matmul(X,W)
+        linear_layer = self.linear(X)
         score = F.softmax(linear_layer,dim=1)
         return score
 
