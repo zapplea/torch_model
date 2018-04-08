@@ -28,6 +28,8 @@ class Cascading:
     def cross_entropy_loss(self,input,target):
         input = tr.log(input)
         loss = tr.nn.NLLLoss(size_average=True,reduce=True)
+        print(input)
+        print(target)
         return loss(input,target)
 
     def prediction(self,score):
@@ -88,7 +90,6 @@ class Cascading:
             optim.zero_grad()
             print('score')
             score = model.forward(tr.autograd.Variable(X,requires_grad=False))
-            print(score)
             print('loss')
             loss = self.cross_entropy_loss(score,tr.autograd.Variable(y_.long(),requires_grad=False))
             print('backward')
