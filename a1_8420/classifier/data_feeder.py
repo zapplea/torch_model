@@ -1,5 +1,5 @@
 import numpy as np
-import torch
+import torch as tr
 # TODO: need to normalize data
 from torch.utils.data import Dataset
 from torch.utils.data import DataLoader
