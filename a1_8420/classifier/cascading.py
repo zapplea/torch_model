@@ -11,7 +11,7 @@ class Net(tr.nn.Module):
         out_dim = self.nn_config['label_dim']
         self.linear = tr.nn.Linear(in_dim,out_dim)
 
-    def foward(self,X):
+    def forward(self,X):
         linear_layer = self.linear(X)
         score = F.softmax(linear_layer,dim=1)
         return score
@@ -82,7 +82,9 @@ class Cascading:
             if self.nn_config['cuda'] and tr.cuda.is_available():
                 X,y_ = X.cuda(),y_.cuda()
             optim.zero_grad()
+            print('score')
             score = model.forward(tr.autograd.Variable(X,requires_grad=False))
+            print('loss')
             loss = self.cross_entropy_loss(score,tr.autograd.Variable(y_,requires_grad=False))
             loss.backward()
             optim.step()
