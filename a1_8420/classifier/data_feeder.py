@@ -21,7 +21,6 @@ class DataFeeder:
     def __init__(self,data_config):
         self.data_config = data_config
         self.train_data,self.test_data=self.loader()
-        print(self.train_data)
 
     def loader(self):
         with open(self.data_config['data_filePath'],'rb') as f:
@@ -29,6 +28,7 @@ class DataFeeder:
         return data['train_data'], data['test_data']
 
     def train_feeder(self):
+        print(self.train_data[:self.data_config['train_data_len']])
         dataiter = DataLoader(myDataset(self.train_data[:self.data_config['train_data_len']]),
                               batch_size=self.data_config['batch_size'],
                               shuffle='True')
