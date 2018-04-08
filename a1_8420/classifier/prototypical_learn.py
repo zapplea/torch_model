@@ -3,7 +3,7 @@ from prototypical import PrototypicalNet
 
 def main(nn_config,data_config):
     df = DataFeeder(data_config)
-    cl = PrototypicalNet(nn_config)
+    cl = PrototypicalNet(nn_config,df)
     cl.classifier()
 
 if __name__ =="__main__":
@@ -30,3 +30,4 @@ if __name__ =="__main__":
                  'cuda': True,
                  'k_shot':None,
                  }
+    main(nn_config,data_config)

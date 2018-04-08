@@ -28,5 +28,6 @@ if __name__=="__main__":
                  'test_data_len': 1797,
                  'neigh_num':3,
                  'report_filePath':'/datastore/liu121/torch_data/a1_8420/report',
-                 'cuda':True
-                 }
+                 'cuda':True}
+
+    main(data_config,nn_config)
