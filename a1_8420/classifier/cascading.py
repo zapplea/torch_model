@@ -76,9 +76,12 @@ class Cascading:
 
 
     def train(self,model):
+        print('dataiter')
         dataiter = self.df.train_feeder()
+        print('optim')
         optim = self.optimizer(model)
         for X,y_ in dataiter:
+            print('cuda')
             if self.nn_config['cuda'] and tr.cuda.is_available():
                 X,y_ = X.cuda(),y_.cuda()
             optim.zero_grad()
