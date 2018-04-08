@@ -23,7 +23,7 @@ class DataGenerator:
                 for i in range(0,64):
                     feature.append(float(ls[i]))
                 label = float(ls[-1])
-                train_data.append((np.array(feature,'float32'),np.array(label,'int64')))
+                train_data.append((np.array(feature,'float32'),np.array([label],'float32')))
         with open('/datastore/liu121/torch_data/a1_8420/data.pkl','wb') as f:
             random.shuffle(test_data)
             random.shuffle(train_data)
