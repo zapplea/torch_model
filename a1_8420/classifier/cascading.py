@@ -90,8 +90,11 @@ class Cascading:
             score = model.forward(tr.autograd.Variable(X,requires_grad=False))
             print('loss')
             loss = self.cross_entropy_loss(score,tr.autograd.Variable(y_,requires_grad=False))
+            print('backward')
             loss.backward()
+            print('optim')
             optim.step()
+            print('one batch finish')
 
     def knn_matrix_generator(self,true_lables,pred_labels,X):
         knn_features = []
