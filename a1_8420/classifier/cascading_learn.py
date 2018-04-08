@@ -10,7 +10,7 @@ if __name__=="__main__":
     seed = {'batch_size':30}
     data_config = {'train_data':'../dataset/optdigits.tra',
                    'test_data':'../dataset/optdigits.tes',
-                   'data_filePath':'../dataset/data.pkl',
+                   'data_filePath':'/datastore/liu121/torch_data/a1_8420/data.pkl',
                    'train_data_len': 1934,
                    'validation_data_len': 946,
                    'test_data_len': 1797,
