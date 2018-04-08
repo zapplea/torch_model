@@ -15,6 +15,8 @@ class myDataset(Dataset):
 
     def __getitem__(self, index):
         instance = self.data[index]
+        print('==============')
+        print(instance)
         return instance
 
 class DataFeeder:
