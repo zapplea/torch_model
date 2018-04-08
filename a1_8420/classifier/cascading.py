@@ -67,8 +67,11 @@ class Cascading:
             if self.nn_config['cuda'] and tr.cuda.is_available():
                 model.cuda()
             for epoch in range(self.nn_config['epoch']):
+                print('train')
                 self.train(model)
+                print('validation')
                 knn_features,knn_labels = self.validation(model)
+                print('test')
                 self.test(model,knn_features,knn_labels)
 
 
