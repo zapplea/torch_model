@@ -15,8 +15,6 @@ class myDataset(Dataset):
 
     def __getitem__(self, index):
         instance = self.data[index]
-        print('==============')
-        print(instance)
         return instance
 
 class DataFeeder:
@@ -30,7 +28,6 @@ class DataFeeder:
         return data['train_data'], data['test_data']
 
     def train_feeder(self):
-        print(self.train_data[:self.data_config['train_data_len']])
         dataiter = DataLoader(myDataset(self.train_data[:self.data_config['train_data_len']]),
                               batch_size=self.data_config['batch_size'],
                               shuffle='True')
