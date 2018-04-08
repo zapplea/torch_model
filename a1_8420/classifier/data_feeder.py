@@ -1,6 +1,5 @@
-import pickle
 import numpy as np
-
+import torch
 # TODO: need to normalize data
 from torch.utils.data import Dataset
 from torch.utils.data import DataLoader
