@@ -89,7 +89,7 @@ class Cascading:
             print('score')
             score = model.forward(tr.autograd.Variable(X,requires_grad=False))
             print('loss')
-            loss = self.cross_entropy_loss(score,tr.autograd.Variable(y_,requires_grad=False))
+            loss = self.cross_entropy_loss(score,tr.autograd.Variable(y_.long(),requires_grad=False))
             print('backward')
             loss.backward()
             print('optim')
@@ -112,7 +112,7 @@ class Cascading:
             if self.nn_config['cuda'] and tr.cuda.is_available():
                 X,y_ = X.cuda(),y_.cuda()
             score = model.forward(self,tr.autograd.Variable(X,requires_grad=False))
-            loss = self.cross_entropy_loss(score,tr.autograd.Variable(y_,requires_grad=False))
+            loss = self.cross_entropy_loss(score,tr.autograd.Variable(y_.long(),requires_grad=False))
             if self.nn_config['cuda'] and tr.cuda.is_available():
                 score = score.cpu()
                 y_= y_.cpu()
@@ -147,7 +147,7 @@ class Cascading:
             if self.nn_config['cuda'] and tr.cuda.is_available():
                 X,y_ = X.cuda(),y_.cuda()
             score = model.forward(tr.autograd.Variable(X,requires_grad=True))
-            loss = self.cross_entropy_loss(score,tr.autograd.Variable(y_,requires_grad=False))
+            loss = self.cross_entropy_loss(score,tr.autograd.Variable(y_.long(),requires_grad=False))
 
             if self.nn_config['cuda'] and tr.cuda.is_available():
                 score = score.cpu()
