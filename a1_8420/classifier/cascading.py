@@ -80,6 +80,7 @@ class Cascading:
         dataiter = self.df.train_feeder()
         print('optim')
         optim = self.optimizer(model)
+        print('before train')
         for X,y_ in dataiter:
             print('cuda')
             if self.nn_config['cuda'] and tr.cuda.is_available():
