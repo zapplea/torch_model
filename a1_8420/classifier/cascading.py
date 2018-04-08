@@ -82,13 +82,13 @@ class Cascading:
         optim = self.optimizer(model)
         print('before train')
         for X,y_ in dataiter:
-            print(y_.long())
             print('cuda')
             if self.nn_config['cuda'] and tr.cuda.is_available():
                 X,y_ = X.cuda(),y_.cuda()
             optim.zero_grad()
             print('score')
             score = model.forward(tr.autograd.Variable(X,requires_grad=False))
+            print(score)
             print('loss')
             loss = self.cross_entropy_loss(score,tr.autograd.Variable(y_.long(),requires_grad=False))
             print('backward')
