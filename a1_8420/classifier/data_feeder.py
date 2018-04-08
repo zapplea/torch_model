@@ -69,47 +69,18 @@ class DataFeeder:
     def test_feeder(self):
         dataiter = DataLoader(myDataset(self.test_data),batch_size=self.data_config['test_data_len'],shuffle='True')
         return dataiter
-# class DataFeeder:
-#     def __init__(self,data_config):
-#         self.data_config = data_config
-#         self.train_data,self.test_data=self.loader()
-#
-#     def loader(self):
-#         with open(self.data_config['data_filePath'],'rb') as f:
-#             data = pickle.load(f)
-#         return data['train_data'], data['test_data']
-#
-#     def data_feeder(self,mode,**kwargs):
-#         if mode == 'train':
-#             batch_num = kwargs['batch_id']
-#             batch_size= kwargs['batch_size']
-#             data_temp = self.train_data[:self.data_config['train_data_len']]
-#         elif mode == 'valid':
-#             data_temp = self.train_data[self.data_config['train_data_len']:(self.data_config['train_data_len']+self.data_config['validation_data_len'])]
-#         else:
-#             data_temp = self.test_data
-#
-#         if mode == 'train':
-#             train_size = len(data_temp)
-#             start = batch_num * batch_size % train_size
-#             end = (batch_num * batch_size + batch_size) % train_size
-#             if start < end:
-#                 batch = data_temp[start:end]
-#             elif start >= end:
-#                 batch = data_temp[start:]
-#                 # batch.extend(data_temp[0:end])
-#         else:
-#             batch = data_temp
-#         X = []
-#         y_ = []
-#         for instance in batch:
-#             X.append(instance[0])
-#             y_.append(instance[1])
-#
-#         # during validation and test, to avoid errors are counted repeatedly,
-#         # we need to avoid the same data sended back repeately
-#         return (np.array(X, dtype='float32'), np.array(y_, dtype='int64'))
-#
-#     def test_feeder(self):
-#
-#         return
+
+if __name__ == "__main__":
+    data_config = {'train_data': '../dataset/optdigits.tra',
+                   'test_data': '../dataset/optdigits.tes',
+                   'data_filePath': '/datastore/liu121/torch_data/a1_8420/data.pkl',
+                   'train_data_len': 1934,
+                   'validation_data_len': 946,
+                   'test_data_len': 1797,
+                   'batch_size': 30
+                   }
+    df = DataFeeder(data_config)
+    dataiter = df.train_data()
+    for X,y_ in dataiter:
+        print(X)
+        print(y_)
