@@ -78,7 +78,7 @@ if __name__ == "__main__":
                    'batch_size': 30
                    }
     df = DataFeeder(data_config)
-    dataiter = df.train_data()
+    dataiter = df.train_feeder()
     for X,y_ in dataiter:
         print(X)
         print(y_)
