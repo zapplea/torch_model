@@ -25,7 +25,9 @@ class DataGenerator:
                 label = float(ls[-1])
                 train_data.append((np.array(feature,'float32'),np.array(label,'int64')))
         with open('/datastore/liu121/torch_data/a1_8420/data.pkl','wb') as f:
-            pickle.dump({'test_data':random.shuffle(test_data),'train_data':random.shuffle(train_data)},f)
+            random.shuffle(test_data)
+            random.shuffle(train_data)
+            pickle.dump({'test_data':test_data,'train_data':train_data},f)
 
 if __name__=="__main__":
     dg = DataGenerator()

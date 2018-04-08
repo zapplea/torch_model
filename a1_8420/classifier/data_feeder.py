@@ -23,9 +23,6 @@ class DataFeeder:
     def __init__(self,data_config):
         self.data_config = data_config
         self.train_data,self.test_data=self.loader()
-        print(self.train_data)
-        print(self.test_data)
-        exit()
 
     def loader(self):
         with open(self.data_config['data_filePath'],'rb') as f:
