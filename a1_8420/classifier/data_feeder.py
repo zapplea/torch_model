@@ -65,7 +65,7 @@ class DataFeeder:
         prototypes_ls = []
         for i in range(10):
             prototypes_ls.append(prototypes[i])
-        return prototypes_ls
+        return np.array(prototypes_ls,dtype='float32')
 
 
 
