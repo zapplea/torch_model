@@ -28,8 +28,6 @@ class Cascading:
     def cross_entropy_loss(self,input,target):
         input = tr.log(input)
         loss = tr.nn.NLLLoss(size_average=True,reduce=True)
-        print(input)
-        print(target)
         return loss(input,target)
 
     def prediction(self,score):
