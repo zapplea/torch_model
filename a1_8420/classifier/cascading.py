@@ -63,7 +63,7 @@ class Cascading:
 
     def classifier(self):
 
-        with tr.cuda.device(0):
+        with tr.cuda.device(self.nn_config['gpu']):
             module = Net(self.nn_config)
             if self.nn_config['cuda'] and tr.cuda.is_available():
                 module.cuda()
@@ -85,7 +85,6 @@ class Cascading:
             score = module.forward(tr.autograd.Variable(X,requires_grad=False))
             # TODO: the size of y_ is (30,1) should be (30,)
             loss = self.cross_entropy_loss(score,tr.autograd.Variable(y_.long().view(-1),requires_grad=False))
-            print('Test: loss:{}'.format(loss.cpu().data.numpy()))
             loss.backward()
             optim.step()
 
@@ -114,6 +113,7 @@ class Cascading:
             pred_labels = self.prediction(score.data.numpy())
             knn_features, knn_labels = self.knn_matrix_generator(y_.numpy().astype('float32'), pred_labels, X.numpy())
             f1, accuracy = self.metrics(y_.numpy().astype('float32'), pred_labels)
+            print('Validation: loss:{}'.format(loss.data.numpy()))
             f.write('Validation: loss:{:.4f}, accuracy:{:.4f}, f1:{:.4f}\n'.format(float(loss.data.numpy()), float(f1), float(accuracy)))
             f.flush()
         f.close()

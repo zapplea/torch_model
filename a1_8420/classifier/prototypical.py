@@ -50,7 +50,7 @@ class PrototypicalNet:
         return optim
 
     def classifier(self):
-        with tr.cuda.device(0):
+        with tr.cuda.device(self.nn_config['gpu']):
             module = Net(self.nn_config)
             if self.nn_config['cuda'] and tr.cuda.is_available():
                 module.cuda()

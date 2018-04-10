@@ -28,6 +28,7 @@ if __name__ =="__main__":
                  'test_data_len': 1797,
                  'report_filePath': '/datastore/liu121/torch_data/a1_8420/report.pt',
                  'cuda': True,
+                 'gpu':0,
                  'k_shot':None,
                  }
     main(nn_config,data_config)
