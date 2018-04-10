@@ -28,7 +28,7 @@ class Net(tr.nn.Module):
         # shape = (batch size, 1,feature dim)
         X = tr.unsqueeze(X,dim=1)
         # shape = (batch size, labels num,feature dim)
-        X = X.repeat(1,self.nn_config['labels_dim'],1)
+        X = X.repeat(1,self.nn_config['label_dim'],1)
         C = self.forward_prot(C)
         # shape = (batch size, labels num)
         euclidean_distance = tr.sqrt(tr.mul(tr.add(X,-C),tr.add(X,-C)).sum(2))
