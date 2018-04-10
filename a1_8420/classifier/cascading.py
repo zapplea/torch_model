@@ -35,7 +35,7 @@ class Cascading:
         condition = np.greater_equal(score,np.array(self.nn_config['theta'],dtype='float32'))
         score = np.where(condition,score,np.zeros_like(score,dtype='float32'))
         pred_labels=[]
-        for i in score.shape[0]:
+        for i in range(len(score)):
             instance = score[i]
             if str(np.all(np.equal(instance,np.array(0,dtype='float32')))) == 'True':
                 pred_labels.append(-1)
