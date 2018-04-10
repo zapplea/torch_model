@@ -69,6 +69,8 @@ class PrototypicalNet:
             if self.nn_config['cuda'] and tr.cuda.is_available():
                 module.cuda()
             for i in range(self.nn_config['epoch']):
+                with open(self.nn_config['report_filePath'],'a+') as f:
+                    f.write('epoch:{}\n'.format(i))
                 self.train(module)
                 self.test(module)
 
