@@ -85,6 +85,7 @@ class Cascading:
             score = module.forward(tr.autograd.Variable(X,requires_grad=False))
             # TODO: the size of y_ is (30,1) should be (30,)
             loss = self.cross_entropy_loss(score,tr.autograd.Variable(y_.long().view(-1),requires_grad=False))
+            print('Test: loss:{}'.format(loss.data.numpy()))
             loss.backward()
             optim.step()
 
