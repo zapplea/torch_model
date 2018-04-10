@@ -22,7 +22,7 @@ if __name__ =="__main__":
                  'label_dim':10,
                  'lr': 0.03,
                  'weight_decay': 0.00003,
-                 'epoch': 20,
+                 'epoch': 60,
                  'mod': 20,
                  'batch_size': seed['batch_size'],
                  'train_data_len': 1934,
