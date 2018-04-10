@@ -21,8 +21,8 @@ class Cascading:
         self.nn_config = nn_config
         self.df = df
 
-    def optimizer(self,model):
-        optim = tr.optim.SGD(model.parameters(),lr=self.nn_config['lr'],weight_decay=self.nn_config['weight_decay'])
+    def optimizer(self,module):
+        optim = tr.optim.SGD(module.parameters(),lr=self.nn_config['lr'],weight_decay=self.nn_config['weight_decay'])
         return optim
 
     def cross_entropy_loss(self,input,target):
@@ -63,23 +63,23 @@ class Cascading:
     def classifier(self):
 
         with tr.cuda.device(0):
-            model = Net(self.nn_config)
+            module = Net(self.nn_config)
             if self.nn_config['cuda'] and tr.cuda.is_available():
-                model.cuda()
+                module.cuda()
             for epoch in range(self.nn_config['epoch']):
-                self.train(model)
-                knn_features,knn_labels = self.validation(model)
-                self.test(model,knn_features,knn_labels)
+                self.train(module)
+                knn_features,knn_labels = self.validation(module)
+                self.test(module,knn_features,knn_labels)
 
 
-    def train(self,model):
+    def train(self,module):
         dataiter = self.df.train_feeder()
-        optim = self.optimizer(model)
+        optim = self.optimizer(module)
         for X,y_ in dataiter:
             if self.nn_config['cuda'] and tr.cuda.is_available():
                 X,y_ = X.cuda(),y_.cuda()
             optim.zero_grad()
-            score = model.forward(tr.autograd.Variable(X,requires_grad=False))
+            score = module.forward(tr.autograd.Variable(X,requires_grad=False))
             # TODO: the size of y_ is (30,1) should be (30,)
             loss = self.cross_entropy_loss(score,tr.autograd.Variable(y_.long().view(-1),requires_grad=False))
             loss.backward()
@@ -94,13 +94,13 @@ class Cascading:
                 knn_labels.append(true_lables[i])
         return knn_features,knn_labels
 
-    def validation(self,model):
+    def validation(self,module):
         f = open(self.nn_config['report_filePath'],'w+')
         dataiter = self.df.validation_feeder()
         for X,y_ in dataiter:
             if self.nn_config['cuda'] and tr.cuda.is_available():
                 X,y_ = X.cuda(),y_.cuda()
-            score = model.forward(self,tr.autograd.Variable(X,requires_grad=False))
+            score = module.forward(tr.autograd.Variable(X,requires_grad=False))
             loss = self.cross_entropy_loss(score,tr.autograd.Variable(y_.long(),requires_grad=False))
             if self.nn_config['cuda'] and tr.cuda.is_available():
                 score = score.cpu()
@@ -129,13 +129,13 @@ class Cascading:
             pred_labels[index] = exceptions_labels[i]
         return pred_labels
 
-    def test(self,model,knn_features,knn_labels):
+    def test(self,module,knn_features,knn_labels):
         f=open(self.nn_config['report_filePath'],'a+')
         test_data =self.df.test_feeder()
         for X, y_ in test_data:
             if self.nn_config['cuda'] and tr.cuda.is_available():
                 X,y_ = X.cuda(),y_.cuda()
-            score = model.forward(tr.autograd.Variable(X,requires_grad=True))
+            score = module.forward(tr.autograd.Variable(X,requires_grad=True))
             loss = self.cross_entropy_loss(score,tr.autograd.Variable(y_.long(),requires_grad=False))
 
             if self.nn_config['cuda'] and tr.cuda.is_available():
