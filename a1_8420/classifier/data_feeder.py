@@ -65,7 +65,6 @@ class DataFeeder:
         prototypes_ls = []
         for i in range(10):
             prototypes_ls.append(prototypes[i])
-        print('proto_ls:\n',prototypes_ls)
         return prototypes_ls
 
 
@@ -87,7 +86,12 @@ if __name__ == "__main__":
                    'batch_size': 30
                    }
     df = DataFeeder(data_config)
-    dataiter = df.train_feeder()
-    for X,y_ in dataiter:
-        print('feature size: ',X.size())
-        print('label size: ',y_.size())
+    # dataiter = df.train_feeder()
+    # for X,y_ in dataiter:
+    #     print('feature size: ',X.size())
+    #     print('label size: ',y_.size())
+    prototypes = df.prototype_feeder(k_shot=None)
+    for p in prototypes:
+        print(p.shape)
+    print(type(prototypes))
+    tr.FloatTensor(prototypes)
