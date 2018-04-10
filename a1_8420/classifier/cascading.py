@@ -67,36 +67,23 @@ class Cascading:
             if self.nn_config['cuda'] and tr.cuda.is_available():
                 model.cuda()
             for epoch in range(self.nn_config['epoch']):
-                print('train')
                 self.train(model)
-                print('validation')
                 knn_features,knn_labels = self.validation(model)
-                print('test')
                 self.test(model,knn_features,knn_labels)
 
 
     def train(self,model):
-        print('dataiter')
         dataiter = self.df.train_feeder()
-        print('optim')
         optim = self.optimizer(model)
-        print('before train')
         for X,y_ in dataiter:
             if self.nn_config['cuda'] and tr.cuda.is_available():
                 X,y_ = X.cuda(),y_.cuda()
             optim.zero_grad()
-            print('score')
             score = model.forward(tr.autograd.Variable(X,requires_grad=False))
-            print('loss')
             # TODO: the size of y_ is (30,1) should be (30,)
             loss = self.cross_entropy_loss(score,tr.autograd.Variable(y_.long().view(-1),requires_grad=False))
-            print('backward')
             loss.backward()
-            print('optim')
             optim.step()
-            print('one batch finish')
-            print('=================')
-        exit()
 
     def knn_matrix_generator(self,true_lables,pred_labels,X):
         knn_features = []
