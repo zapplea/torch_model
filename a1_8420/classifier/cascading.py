@@ -12,7 +12,7 @@ class Net(tr.nn.Module):
         out_dim = self.nn_config['label_dim']
         self.linear = tr.nn.Linear(in_dim,out_dim)
 
-    def forward_softmax(self,X):
+    def forward(self,X):
         linear_layer = self.linear(X)
         score = F.softmax(linear_layer,dim=1)
         return score
@@ -82,7 +82,7 @@ class Cascading:
             if self.nn_config['cuda'] and tr.cuda.is_available():
                 X,y_ = X.cuda(),y_.cuda()
             optim.zero_grad()
-            score = module.forward_softmax(tr.autograd.Variable(X,requires_grad=False))
+            score = module.forward(tr.autograd.Variable(X,requires_grad=False))
             # TODO: the size of y_ is (30,1) should be (30,)
             loss = self.cross_entropy_loss(score,tr.autograd.Variable(y_.long(),requires_grad=False))
             loss.backward()
@@ -103,7 +103,7 @@ class Cascading:
         for X,y_ in dataiter:
             if self.nn_config['cuda'] and tr.cuda.is_available():
                 X,y_ = X.cuda(),y_.cuda()
-            score = module.forward_softmax(tr.autograd.Variable(X,requires_grad=False))
+            score = module.forward(tr.autograd.Variable(X,requires_grad=False))
             loss = self.cross_entropy_loss(score,tr.autograd.Variable(y_.long(),requires_grad=False))
             if self.nn_config['cuda'] and tr.cuda.is_available():
                 score = score.cpu()
@@ -139,7 +139,7 @@ class Cascading:
         for X, y_ in test_data:
             if self.nn_config['cuda'] and tr.cuda.is_available():
                 X,y_ = X.cuda(),y_.cuda()
-            score = module.forward_softmax(tr.autograd.Variable(X,requires_grad=True))
+            score = module.forward(tr.autograd.Variable(X,requires_grad=True))
             loss = self.cross_entropy_loss(score,tr.autograd.Variable(y_.long(),requires_grad=False))
 
             if self.nn_config['cuda'] and tr.cuda.is_available():
