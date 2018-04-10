@@ -94,4 +94,4 @@ if __name__ == "__main__":
     for p in prototypes:
         print(type(p))
     print(type(prototypes))
-    tr.FloatTensor(prototypes)
+    tr.FloatTensor(np.array(prototypes,'float32'))
