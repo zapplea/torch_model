@@ -7,5 +7,7 @@ GPU: all gpu when set nn_config['cuda'] to True and the pytorch can detect avail
 can change the device to set nn_config['gpu'] to the gpu device number available.
 
 program instruction:
-for cascading network, sometimes the loss might be NaN, when it happen, please run the program again.
-The performance of the module is not stable, the best accuracy is 96.7% when test written independent data.
+TODO: Normalize the data
+The performance of the module is not stable. To get the best performance, you may need to run it several times.
+The best accuracy and f1 is 96.77%, when test written independent data. And this happens when loss is NaN
+which might mean loss is a absolutely small value.

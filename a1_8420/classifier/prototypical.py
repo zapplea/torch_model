@@ -104,5 +104,5 @@ class PrototypicalNet:
 
             pred_labels = self.prediction(score.numpy())
             f1,accuracy = self.metrics(true_labels=y_.numpy().astype('float32'),pred_labels=pred_labels)
-            f.write('Test: loss:{:.4f}, accuracy:{:.4f}, f1:{:.4f}'.format(loss.data.numpy(), f1, accuracy))
+            f.write('Test: loss:{:.4f}, accuracy:{:.4f}, f1:{:.4f}\n'.format(loss.data.numpy(), f1, accuracy))
         f.close()
