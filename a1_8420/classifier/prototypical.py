@@ -17,7 +17,7 @@ class Net(tr.nn.Module):
         # X.shape = (batch size, feature dim)
         # linear1 = (batch size, )
         linear_layer1 = self.linear1(X)
-        hidden_layer = F.relu(linear_layer1)
+        hidden_layer = F.tanh(linear_layer1)
         return hidden_layer
 
     def forward_sample(self,X):
@@ -39,15 +39,13 @@ class Net(tr.nn.Module):
     def forward_softmax(self,X,C):
 
         X = self.forward_sample(X)
-        # shape = (batch size, 1,feature dim)
+        # shape = (batch size, 1, hidden layer dim)
         X = tr.unsqueeze(X,dim=1)
-        # shape = (batch size, labels num,feature dim)
-        X = X.repeat(1,self.nn_config['label_dim'],1)
+        # shape = (batch size, labels num, hidden layer dim)
+        X = X.expand(1,self.nn_config['label_dim'],1)
         C = self.forward_prot(C)
         # shape = (batch size, labels num)
         euclidean_distance = tr.sqrt(tr.mul(tr.add(X,-C),tr.add(X,-C)).sum(2))
-        print('eu distance: ',euclidean_distance.cpu().data.size())
-        exit()
         score = F.softmax(euclidean_distance,dim=1)
         return score
 

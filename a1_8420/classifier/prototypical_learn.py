@@ -31,6 +31,6 @@ if __name__ =="__main__":
                  'report_filePath': '/datastore/liu121/torch_data/a1_8420/report.pt',
                  'cuda': True,
                  'gpu':0,
-                 'k_shot':20,
+                 'k_shot':70,
                  }
     main(nn_config,data_config)
