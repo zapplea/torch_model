@@ -42,7 +42,7 @@ class Net(tr.nn.Module):
         # shape = (batch size, 1, hidden layer dim)
         X = tr.unsqueeze(X,dim=1)
         # shape = (batch size, labels num, hidden layer dim)
-        X = X.expand(-1,self.nn_config['label_dim'],-1)
+        X = X.repeat(1,self.nn_config['label_dim'],1)
         C = self.forward_prot(C)
         # shape = (batch size, labels num)
         euclidean_distance = tr.sqrt(tr.mul(tr.add(X,-C),tr.add(X,-C)).sum(2))
@@ -112,7 +112,6 @@ class PrototypicalNet:
 
             score = module.forward_softmax(tr.autograd.Variable(X, requires_grad=False),
                                            tr.autograd.Variable(C, requires_grad=False))
-            # print(score.cpu().data)
             loss = module.cross_entropy_loss(score, tr.autograd.Variable(y_.long(), requires_grad=False))
 
             if self.nn_config['cuda'] and tr.cuda.is_available():
@@ -120,10 +119,7 @@ class PrototypicalNet:
                 y_= y_.cpu()
                 loss = loss.cpu()
 
-            print(score.size())
             pred_labels = self.prediction(score.data.numpy())
-            print('true label:\n',str(y_.numpy()))
-            print('pred label:\n',str(pred_labels))
             f1,accuracy = self.metrics(true_labels=y_.numpy().astype('float32'),pred_labels=pred_labels)
             f.write('Test: loss:{:.4f}, accuracy:{:.4f}, f1:{:.4f}\n'.format(float(loss.data.numpy()), float(f1), float(accuracy)))
             f.flush()
