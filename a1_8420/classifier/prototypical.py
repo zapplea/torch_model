@@ -46,7 +46,7 @@ class Net(tr.nn.Module):
         C = self.forward_prot(C)
         # shape = (batch size, labels num)
         euclidean_distance = tr.sqrt(tr.mul(tr.add(X,-C),tr.add(X,-C)).sum(2))
-        print('eu distance: ',euclidean_distance.cpu().data.size)
+        print('eu distance: ',euclidean_distance.cpu().data.size())
         exit()
         score = F.softmax(euclidean_distance,dim=1)
         return score
