@@ -2,6 +2,7 @@ import torch as tr
 import torch.nn.functional as F
 import numpy as np
 import sklearn.metrics
+import sklearn.neighbors
 
 class Net(tr.nn.Module):
     def __init__(self,nn_config):
