@@ -48,7 +48,7 @@ class Cascading:
         pred_labels = list(pred_labels)
         true_ls = []
         pred_ls = []
-        for i in range(pred_labels.shape[0]):
+        for i in range(len(pred_labels)):
             if pred_labels[i] == -1:
                 continue
             else:
