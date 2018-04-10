@@ -122,7 +122,7 @@ class Cascading:
             if pred_labels[i] == -1:
                 exceptions.append(X[i])
                 exceptions_index.append(i)
-        neigh = sklearn.neighbors.KNeighborsClassifier(n_neighbours=self.nn_config['neigh_num'])
+        neigh = sklearn.neighbors.KNeighborsClassifier(n_neighbors=self.nn_config['neigh_num'])
         neigh.fit(knn_features,knn_labels)
         exceptions_labels = neigh.predict(exceptions)
         for i in range(len(exceptions_labels)):
