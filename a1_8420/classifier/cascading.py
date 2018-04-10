@@ -1,7 +1,7 @@
 import torch as tr
 import torch.nn.functional as F
 import numpy as np
-import sklearn
+import sklearn.metrics
 
 class Net(tr.nn.Module):
     def __init__(self,nn_config):
