@@ -17,6 +17,11 @@ class Net(tr.nn.Module):
         score = F.softmax(linear_layer,dim=1)
         return score
 
+    def cross_entropy_loss(self,input,target):
+        input = tr.log(input)
+        loss = tr.nn.NLLLoss(size_average=True,reduce=True)
+        return loss(input,target)
+
 class Cascading:
     def __init__(self,nn_config,df):
         self.nn_config = nn_config
@@ -25,11 +30,6 @@ class Cascading:
     def optimizer(self,module):
         optim = tr.optim.SGD(module.parameters(),lr=self.nn_config['lr'],weight_decay=self.nn_config['weight_decay'])
         return optim
-
-    def cross_entropy_loss(self,input,target):
-        input = tr.log(input)
-        loss = tr.nn.NLLLoss(size_average=True,reduce=True)
-        return loss(input,target)
 
     def prediction(self,score):
         # TODO: need to use u>theta to compute which is predicted label
@@ -84,7 +84,7 @@ class Cascading:
             optim.zero_grad()
             score = module.forward(tr.autograd.Variable(X,requires_grad=False))
             # TODO: the size of y_ is (30,1) should be (30,)
-            loss = self.cross_entropy_loss(score,tr.autograd.Variable(y_.long(),requires_grad=False))
+            loss = module.cross_entropy_loss(score,tr.autograd.Variable(y_.long(),requires_grad=False))
             loss.backward()
             optim.step()
 
@@ -104,7 +104,7 @@ class Cascading:
             if self.nn_config['cuda'] and tr.cuda.is_available():
                 X,y_ = X.cuda(),y_.cuda()
             score = module.forward(tr.autograd.Variable(X,requires_grad=False))
-            loss = self.cross_entropy_loss(score,tr.autograd.Variable(y_.long(),requires_grad=False))
+            loss = module.cross_entropy_loss(score,tr.autograd.Variable(y_.long(),requires_grad=False))
             if self.nn_config['cuda'] and tr.cuda.is_available():
                 score = score.cpu()
                 y_= y_.cpu()
@@ -140,7 +140,7 @@ class Cascading:
             if self.nn_config['cuda'] and tr.cuda.is_available():
                 X,y_ = X.cuda(),y_.cuda()
             score = module.forward(tr.autograd.Variable(X,requires_grad=True))
-            loss = self.cross_entropy_loss(score,tr.autograd.Variable(y_.long(),requires_grad=False))
+            loss = module.cross_entropy_loss(score,tr.autograd.Variable(y_.long(),requires_grad=False))
 
             if self.nn_config['cuda'] and tr.cuda.is_available():
                 score = score.cpu()
