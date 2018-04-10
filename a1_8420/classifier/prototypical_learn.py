@@ -7,12 +7,14 @@ def main(nn_config,data_config):
     cl.classifier()
 
 if __name__ =="__main__":
+    seed = {'batch_size': 30}
     data_config = {'train_data': '../dataset/optdigits.tra',
                    'test_data': '../dataset/optdigits.tes',
                    'data_filePath': '/datastore/liu121/torch_data/a1_8420/data.pkl',
                    'train_data_len': 1934,
                    'validation_data_len': 946,
-                   'test_data_len': 1797
+                   'test_data_len': 1797,
+                   'batch_size':seed['batch_size']
                    }
 
     nn_config = {'feature_dim': 64,
@@ -20,9 +22,9 @@ if __name__ =="__main__":
                  'label_dim':10,
                  'lr': 0.03,
                  'weight_decay': 0.00003,
-                 'epoch': 10,
+                 'epoch': 20,
                  'mod': 20,
-                 'batch_size': 30,
+                 'batch_size': seed['batch_size'],
                  'train_data_len': 1934,
                  'validation_data_len': 946,
                  'test_data_len': 1797,
