@@ -68,6 +68,8 @@ class Cascading:
             if self.nn_config['cuda'] and tr.cuda.is_available():
                 module.cuda()
             for epoch in range(self.nn_config['epoch']):
+                with open(self.nn_config['report_filePath'],'a+') as f:
+                    f.write('\nepoch:{}\n'.format(epoch))
                 self.train(module)
                 knn_features,knn_labels = self.validation(module)
                 self.test(module,knn_features,knn_labels)
@@ -96,7 +98,7 @@ class Cascading:
         return knn_features,knn_labels
 
     def validation(self,module):
-        f = open(self.nn_config['report_filePath'],'w+')
+        f = open(self.nn_config['report_filePath'],'a+')
         dataiter = self.df.validation_feeder()
         for X,y_ in dataiter:
             if self.nn_config['cuda'] and tr.cuda.is_available():
@@ -111,7 +113,7 @@ class Cascading:
             pred_labels = self.prediction(score.data.numpy())
             knn_features, knn_labels = self.knn_matrix_generator(y_.numpy().astype('float32'), pred_labels, X.numpy())
             f1, accuracy = self.metrics(y_.numpy().astype('float32'), pred_labels)
-            f.write('Validation: loss:{:.4f}, accuracy:{:.4f}, f1:{:.4f}'.format(float(loss.data.numpy()), float(f1), float(accuracy)))
+            f.write('Validation: loss:{:.4f}, accuracy:{:.4f}, f1:{:.4f}\n'.format(float(loss.data.numpy()), float(f1), float(accuracy)))
             f.flush()
         f.close()
         return knn_features,knn_labels
@@ -149,6 +151,6 @@ class Cascading:
             pred_labels = self.prediction(score.data.numpy())
             pred_labels = self.knn(knn_features,knn_labels,X.numpy(),pred_labels)
             f1,accuracy = self.metrics(true_labels=y_.numpy().astype('float32'),pred_labels=pred_labels)
-            f.write('Test: loss:{:.4f}, accuracy:{:.4f}, f1:{:.4f}'.format(float(loss.data.numpy()), float(f1), float(accuracy)))
+            f.write('Test: loss:{:.4f}, accuracy:{:.4f}, f1:{:.4f}\n'.format(float(loss.data.numpy()), float(f1), float(accuracy)))
             f.flush()
         f.close()
