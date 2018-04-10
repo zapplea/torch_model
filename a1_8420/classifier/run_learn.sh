@@ -1,6 +1,6 @@
 #!/bin/bash
 #SBATCH --get-user-env
-#SBATCH --job-name="emnlp_baseline"
+#SBATCH --job-name="a1_8420"
 #SBATCH --time=5:59:00
 #SBATCH --nodes=1
 #SBATCH --mem=50GB
