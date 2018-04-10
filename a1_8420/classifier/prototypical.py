@@ -31,7 +31,7 @@ class Net(tr.nn.Module):
         """
         C = C.view(-1,self.nn_config['feature_dim'])
         C = self.forward_nonlinear(C)
-        C = C.view(self.nn_config['label_dim'],self.nn_config['k_shot'],self.nn_config['feature_dim'])
+        C = C.view(self.nn_config['label_dim'],self.nn_config['k_shot'],self.nn_config['layer_dim'][0])
         # shape = (labels num, feature dim)
         C = C.mean(1)
         return C
