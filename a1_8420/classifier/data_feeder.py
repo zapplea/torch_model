@@ -90,4 +90,3 @@ if __name__ == "__main__":
     for X,y_ in dataiter:
         print('feature size: ',X.size())
         print('label size: ',y_.size())
-        break
