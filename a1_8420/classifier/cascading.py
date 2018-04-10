@@ -82,7 +82,6 @@ class Cascading:
         optim = self.optimizer(model)
         print('before train')
         for X,y_ in dataiter:
-            print('cuda')
             if self.nn_config['cuda'] and tr.cuda.is_available():
                 X,y_ = X.cuda(),y_.cuda()
             optim.zero_grad()
@@ -96,6 +95,7 @@ class Cascading:
             print('optim')
             optim.step()
             print('one batch finish')
+            print('=================')
         exit()
 
     def knn_matrix_generator(self,true_lables,pred_labels,X):
