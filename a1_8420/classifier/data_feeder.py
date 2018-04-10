@@ -88,5 +88,6 @@ if __name__ == "__main__":
     df = DataFeeder(data_config)
     dataiter = df.train_feeder()
     for X,y_ in dataiter:
-        print(X)
-        print(y_)
+        print('feature size: ',X.size())
+        print('label size: ',y_.size())
+        break
