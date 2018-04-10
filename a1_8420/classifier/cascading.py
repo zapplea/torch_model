@@ -112,6 +112,7 @@ class Cascading:
             knn_features, knn_labels = self.knn_matrix_generator(y_.numpy().astype('float32'), pred_labels, X.numpy())
             f1, accuracy = self.metrics(y_.numpy().astype('float32'), pred_labels)
             f.write('Validation: loss:{:.4f}, accuracy:{:.4f}, f1:{:.4f}'.format(float(loss.data.numpy()), float(f1), float(accuracy)))
+            f.flush()
         f.close()
         return knn_features,knn_labels
 
@@ -149,4 +150,5 @@ class Cascading:
             pred_labels = self.knn(knn_features,knn_labels,X.numpy(),pred_labels)
             f1,accuracy = self.metrics(true_labels=y_.numpy().astype('float32'),pred_labels=pred_labels)
             f.write('Test: loss:{:.4f}, accuracy:{:.4f}, f1:{:.4f}'.format(float(loss.data.numpy()), float(f1), float(accuracy)))
+            f.flush()
         f.close()
