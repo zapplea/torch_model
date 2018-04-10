@@ -92,6 +92,6 @@ if __name__ == "__main__":
     #     print('label size: ',y_.size())
     prototypes = df.prototype_feeder(k_shot=None)
     for p in prototypes:
-        print(p.shape)
+        print(type(p))
     print(type(prototypes))
     tr.FloatTensor(prototypes)
