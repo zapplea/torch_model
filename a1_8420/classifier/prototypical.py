@@ -11,7 +11,7 @@ class Net(tr.nn.Module):
         out_dim = self.nn_config['layer_dim'][0]
         self.linear1 = tr.nn.Linear(in_dim,out_dim)
 
-    def forword_nonlinear(self,X):
+    def forward_nonlinear(self,X):
         linear_layer1 = self.linear1(X)
         hidden_layer = F.relu(linear_layer1)
         return hidden_layer
