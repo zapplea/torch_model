@@ -113,7 +113,6 @@ class Cascading:
             pred_labels = self.prediction(score.data.numpy())
             knn_features, knn_labels = self.knn_matrix_generator(y_.numpy().astype('float32'), pred_labels, X.numpy())
             f1, accuracy = self.metrics(y_.numpy().astype('float32'), pred_labels)
-            print('Validation: loss:{}'.format(loss.data.numpy()))
             f.write('Validation: loss:{:.4f}, accuracy:{:.4f}, f1:{:.4f}\n'.format(float(loss.data.numpy()), float(f1), float(accuracy)))
             f.flush()
         f.close()

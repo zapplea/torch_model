@@ -5,3 +5,7 @@ package list:
 
 GPU: all gpu when set nn_config['cuda'] to True and the pytorch can detect available gpu. The default gpu device is 0, and
 can change the device to set nn_config['gpu'] to the gpu device number available.
+
+program instruction:
+for cascading network, sometimes the loss might be NaN, when it happen, please run the program again.
+The performance of the module is not stable, the best accuracy is 96.7% when test written independent data.
