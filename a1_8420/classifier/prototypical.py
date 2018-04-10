@@ -10,8 +10,12 @@ class Net(tr.nn.Module):
         in_dim = self.nn_config['feature_dim']
         out_dim = self.nn_config['layer_dim'][0]
         self.linear1 = tr.nn.Linear(in_dim,out_dim)
+        # in_dim = out_dim
+        # out_dim = self.nn_config['label_dim']
 
     def forward_nonlinear(self,X):
+        # X.shape = (batch size, feature dim)
+        # linear1 = (batch size, )
         linear_layer1 = self.linear1(X)
         hidden_layer = F.relu(linear_layer1)
         return hidden_layer
@@ -20,7 +24,17 @@ class Net(tr.nn.Module):
         return self.forward_nonlinear(X)
 
     def forward_prot(self,C):
-        return self.forward_nonlinear(C)
+        """
+        
+        :param C: shape = (labels number, k_shot, feature dim)
+        :return: 
+        """
+        C = C.view(-1,self.nn_config['feature_dim'])
+        C = self.forward_nonlinear(C)
+        C = C.view(self.nn_config['label_dim'],self.nn_config['k_shot'],self.nn_config['feature_dim'])
+        # shape = (labels num, feature dim)
+        C = C.mean(1)
+        return C
 
     def forward_softmax(self,X,C):
 

@@ -43,6 +43,11 @@ class DataFeeder:
         return dataiter
 
     def prototype_feeder(self,k_shot):
+        """
+        
+        :param k_shot: 
+        :return: shape = (labels number, k_shot, feature dim)
+        """
         features = self.train_features[self.data_config['train_data_len']:(self.data_config['train_data_len']+self.data_config['validation_data_len'])]
         labels = self.train_labels[self.data_config['train_data_len']:(self.data_config['train_data_len']+self.data_config['validation_data_len'])]
         length = len(features)
@@ -55,13 +60,11 @@ class DataFeeder:
             label = labels[i]
             if label not in prototypes_freq:
                 prototypes_freq[label]=1
-                prototypes[label]=prototype
+                prototypes[label]=[prototype]
             else:
                 if prototypes_freq[label]<k_shot:
                     prototypes_freq[label]+=1
-                    prototypes[label]+=prototype
-        for label in prototypes:
-            prototypes[label] = (prototypes[label]/np.array(prototypes_freq[label],'float32'))
+                    prototypes[label].append(prototype)
         prototypes_ls = []
         for i in range(10):
             prototypes_ls.append(prototypes[i])
