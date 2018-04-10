@@ -56,8 +56,8 @@ class Cascading:
                 pred_ls.append(pred_labels[i])
         true_labels = np.array(true_ls,dtype='float32')
         pred_labels = np.array(pred_ls,dtype='float32')
-        f1 = sklearn.metrics.f1_score(true_labels=true_labels,pred_labels=pred_labels, average='macro')
-        accuracy = sklearn.metrics.accuracy_score(true_labels=true_labels,pred_labels=pred_labels)
+        f1 = sklearn.metrics.f1_score(y_true=true_labels,y_pred=pred_labels, average='macro')
+        accuracy = sklearn.metrics.accuracy_score(y_true=true_labels,y_pred=pred_labels)
         return f1,accuracy
 
     def classifier(self):
