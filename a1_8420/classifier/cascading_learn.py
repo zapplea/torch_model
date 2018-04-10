@@ -12,6 +12,7 @@ if __name__=="__main__":
                    'test_data':'../dataset/optdigits.tes',
                    'data_filePath':'/datastore/liu121/torch_data/a1_8420/data.pkl',
                    'train_data_len': 1934,
+                   'truncated_len': 1434,
                    'validation_data_len': 946,
                    'test_data_len': 1797,
                    'batch_size':seed['batch_size']

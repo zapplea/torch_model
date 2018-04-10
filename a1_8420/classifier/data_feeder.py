@@ -29,8 +29,8 @@ class DataFeeder:
         return data['train_features'], data['train_labels'],data['test_features'],data['test_labels']
 
     def train_feeder(self):
-        dataiter = DataLoader(myDataset(self.train_features[:self.data_config['train_data_len']],
-                                        self.train_labels[:self.data_config['train_data_len']]),
+        dataiter = DataLoader(myDataset(self.train_features[:(self.data_config['train_data_len']-self.data_config['truncated_len'])],
+                                        self.train_labels[:(self.data_config['train_data_len']-self.data_config['truncated_len'])]),
                               batch_size=self.data_config['batch_size'],
                               shuffle='True')
         return dataiter
