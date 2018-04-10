@@ -148,5 +148,5 @@ class Cascading:
             pred_labels = self.prediction(score.data.numpy())
             pred_labels = self.knn(knn_features,knn_labels,X.numpy(),pred_labels)
             f1,accuracy = self.metrics(true_labels=y_.numpy().astype('float32'),pred_labels=pred_labels)
-            f.write('Test: loss:{:.4f}, accuracy:{:.4f}, f1:{:.4f}'.format(loss.data.numpy(), f1, accuracy))
+            f.write('Test: loss:{:.4f}, accuracy:{:.4f}, f1:{:.4f}'.format(float(loss.data.numpy()), float(f1), float(accuracy)))
         f.close()
