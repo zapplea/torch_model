@@ -26,7 +26,7 @@ if __name__ =="__main__":
                  'train_data_len': 1934,
                  'validation_data_len': 946,
                  'test_data_len': 1797,
-                 'report_filePath': '/datastore/liu121/torch_data/a1_8420/report',
+                 'report_filePath': '/datastore/liu121/torch_data/a1_8420/report.pt',
                  'cuda': True,
                  'k_shot':None,
                  }
