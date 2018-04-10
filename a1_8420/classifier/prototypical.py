@@ -112,7 +112,7 @@ class PrototypicalNet:
 
             score = module.forward_softmax(tr.autograd.Variable(X, requires_grad=False),
                                            tr.autograd.Variable(C, requires_grad=False))
-            print(score.cpu().data)
+            # print(score.cpu().data)
             loss = module.cross_entropy_loss(score, tr.autograd.Variable(y_.long(), requires_grad=False))
 
             if self.nn_config['cuda'] and tr.cuda.is_available():
@@ -122,7 +122,8 @@ class PrototypicalNet:
 
             print(score.size())
             pred_labels = self.prediction(score.data.numpy())
-            print(pred_labels)
+            print('true label:\n',str(y_.numpy()))
+            print('pred label:\n',str(pred_labels))
             f1,accuracy = self.metrics(true_labels=y_.numpy().astype('float32'),pred_labels=pred_labels)
             f.write('Test: loss:{:.4f}, accuracy:{:.4f}, f1:{:.4f}\n'.format(float(loss.data.numpy()), float(f1), float(accuracy)))
             f.flush()
