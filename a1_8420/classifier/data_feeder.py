@@ -65,6 +65,7 @@ class DataFeeder:
         prototypes_ls = []
         for i in range(10):
             prototypes_ls.append(prototypes[i])
+        print('proto_ls:\n',prototypes_ls)
         return prototypes_ls
 
 
