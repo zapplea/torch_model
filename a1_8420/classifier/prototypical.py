@@ -80,8 +80,8 @@ class PrototypicalNet:
     def metrics(self,true_labels,pred_labels):
         true_labels =list(true_labels)
         pred_labels = list(pred_labels)
-        f1 = sklearn.metrics.f1_score(true_labels=true_labels,pred_labels=pred_labels, average='macro')
-        accuracy = sklearn.metrics.accuracy_score(true_labels=true_labels,pred_labels=pred_labels)
+        f1 = sklearn.metrics.f1_score(y_true=true_labels,y_pred=pred_labels, average='macro')
+        accuracy = sklearn.metrics.accuracy_score(y_true=true_labels,y_pred=pred_labels)
         return f1,accuracy
 
     def test(self,module):
@@ -95,7 +95,7 @@ class PrototypicalNet:
 
             score = module.forward_softmax(tr.autograd.Variable(X, requires_grad=False),
                                            tr.autograd.Variable(C, requires_grad=False))
-            loss = module.cross_entropy_loss(score, tr.autograd.Variable(y_, requires_grad=False))
+            loss = module.cross_entropy_loss(score, tr.autograd.Variable(y_.long(), requires_grad=False))
 
             if self.nn_config['cuda'] and tr.cuda.is_available():
                 score = score.cpu()

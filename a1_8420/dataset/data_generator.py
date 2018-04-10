@@ -20,7 +20,7 @@ class DataGenerator:
                 test_features.append(feature)
                 test_labels.append(label)
             test_features = np.array(test_features,dtype='float32')
-            test_labels = np.array(test_labels,dtype='float32')
+            test_labels = np.array(test_labels,dtype='int64')
 
         with open('optdigits.tra') as f:
             data = []
