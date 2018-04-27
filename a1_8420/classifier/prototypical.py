@@ -9,8 +9,8 @@ class Net(tr.nn.Module):
         self.nn_config = nn_config
         in_dim = self.nn_config['feature_dim']
         out_dim = self.nn_config['layer_dim'][0]
-        #self.linear1 = tr.nn.Linear(in_dim,out_dim)
-        self.W = tr.nn.Parameter(tr.randn(in_dim,out_dim),requires_grad=True)
+        self.linear1 = tr.nn.Linear(in_dim,out_dim)
+        # self.W = tr.nn.Parameter(tr.randn(in_dim,out_dim),requires_grad=True)
         # self.bias = tr.nn.Parameter(tr.zeros(out_dim),requires_grad=True)
         # in_dim = out_dim
         # out_dim = self.nn_config['label_dim']
@@ -18,9 +18,9 @@ class Net(tr.nn.Module):
     def forward_nonlinear(self,X):
         # X.shape = (batch size, feature dim)
         # linear1 = (batch size, )
-        # linear_layer1 = self.linear1(X)
+        linear_layer1 = self.linear1(X)
         # hidden_layer = F.tanh(linear_layer1)
-        linear_layer1 = F.linear(input=X,weight=self.W.transpose(0,1))
+        # linear_layer1 = F.linear(input=X,weight=self.W.transpose(0,1))
         hidden_layer = F.tanh(linear_layer1)
         return hidden_layer
 
