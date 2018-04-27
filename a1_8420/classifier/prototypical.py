@@ -23,6 +23,7 @@ class Net(tr.nn.Module):
         linear_layer1 = tr.add(tr.matmul(X,self.W),self.bias)
         print('==============')
         print(self.W.cpu().data.numpy())
+        print(self.W.cpu().grad)
         print('==============')
         hidden_layer = F.tanh(linear_layer1)
         return hidden_layer
