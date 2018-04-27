@@ -10,7 +10,7 @@ class Net(tr.nn.Module):
         self.nn_config = nn_config
         in_dim = self.nn_config['feature_dim']
         out_dim = self.nn_config['label_dim']
-        self.linear = tr.nn.Linear(in_dim,out_dim)
+        self.linear = tr.nn.Linear(in_dim,out_dim,bias=True)
 
     def forward(self,X):
         # linear_layer = self.linear(X)
