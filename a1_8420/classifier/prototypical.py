@@ -12,8 +12,6 @@ class Net(tr.nn.Module):
         self.linear1 = tr.nn.Linear(in_dim,out_dim)
         # self.W = tr.nn.Parameter(tr.randn(in_dim,out_dim),requires_grad=True)
         # self.bias = tr.nn.Parameter(tr.zeros(out_dim),requires_grad=True)
-        # in_dim = out_dim
-        # out_dim = self.nn_config['label_dim']
 
     def forward_nonlinear(self,X):
         # X.shape = (batch size, feature dim)

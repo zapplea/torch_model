@@ -10,10 +10,13 @@ class Net(tr.nn.Module):
         self.nn_config = nn_config
         in_dim = self.nn_config['feature_dim']
         out_dim = self.nn_config['label_dim']
-        self.linear = tr.nn.Linear(in_dim,out_dim)
+        # self.linear = tr.nn.Linear(in_dim,out_dim)
+        self.W = tr.nn.Parameter(tr.randn(in_dim,out_dim),requires_grad=True)
+        # self.bias = tr.nn.Parameter(tr.zeros(out_dim),requires_grad=True)
 
     def forward(self,X):
-        linear_layer = self.linear(X)
+        # linear_layer = self.linear(X)
+        linear_layer = F.linear(X,self.W.transpose(0,1))
         score = F.softmax(linear_layer,dim=1)
         return score
 
