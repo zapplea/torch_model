@@ -9,19 +9,19 @@ class Net(tr.nn.Module):
         self.nn_config = nn_config
         in_dim = self.nn_config['feature_dim']
         out_dim = self.nn_config['layer_dim'][0]
-        # self.linear1 = tr.nn.Linear(in_dim,out_dim)
-        self.W = tr.nn.Parameter(tr.FloatTensor(np.random.uniform(size=(in_dim,out_dim))),requires_grad=True)
-        self.bias = tr.nn.Parameter(tr.FloatTensor(np.zeros(shape=(out_dim,))),requires_grad=True)
+        self.linear1 = tr.nn.Linear(in_dim,out_dim)
+        #self.W = tr.nn.Parameter(tr.FloatTensor(np.random.uniform(size=(in_dim,out_dim))),requires_grad=True)
+        #self.bias = tr.nn.Parameter(tr.FloatTensor(np.zeros(shape=(out_dim,))),requires_grad=True)
         # in_dim = out_dim
         # out_dim = self.nn_config['label_dim']
 
     def forward_nonlinear(self,X):
         # X.shape = (batch size, feature dim)
         # linear1 = (batch size, )
-        #linear_layer1 = self.linear1(X)
-        # hidden_layer = F.tanh(linear_layer1)
-        linear_layer1 = tr.add(tr.matmul(X,self.W),self.bias)
+        linear_layer1 = self.linear1(X)
         hidden_layer = F.tanh(linear_layer1)
+        #linear_layer1 = tr.add(tr.matmul(X,self.W),self.bias)
+        #hidden_layer = F.tanh(linear_layer1)
         return hidden_layer
 
     def forward_sample(self,X):
