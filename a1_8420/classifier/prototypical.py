@@ -20,7 +20,7 @@ class Net(tr.nn.Module):
         # linear1 = (batch size, )
         # linear_layer1 = self.linear1(X)
         # hidden_layer = F.tanh(linear_layer1)
-        linear_layer1 = F.linear(input=X,weight=self.W,bias=self.bias)
+        linear_layer1 = F.linear(input=X,weight=self.W.transpose(),bias=self.bias)
         print('==============')
         print(self.W.cpu().data.numpy())
         print(self.W.grad)
