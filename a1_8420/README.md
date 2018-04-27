@@ -21,3 +21,30 @@ add bidirectional weight-sharing networks. pre-train with few-shot data(cut into
 to prototypical network.
 To see, 1. less time to train. 2. better performance.
 in prototypical network, the linear layer before softmax can be pre-trained by this function.
+
+limitation to number of instance is 300.
+
+Whole process of research:
+pre-train the linear layer with bi-directional model by using training data/validation data used to initialize the k-means.
+Then train the whole model with training data. To show if the model can have better performance when training data is small.
+This more like the cascading classifier which also trains on validation and use exception to knn.
+
+
+# mathmatical
+## proto
+why proto is ok? because the mapping learns all the non-linear part and it makes transfer the non-linearly separable to a 
+linearly separable in high dimension space.
+
+Train the bidirection on validation can make it learn non-linear on validation better and make sure the generalization better
+by using share weight. Assume: without share weight, the result will be worse. Previously, the non-linear is learned
+in training data, now learn it on validation data.
+
+## cascading
+why the cascading not good?
+the model is linear one.
+knn is a non-linear model but the non-linear is not learned. the shortage is that if there is overlap between classes, it will not easy to
+ separate the class. just use exceptions to construct the knn, this also explain whey the model is not stable, because each time 
+ the knn will be chosen.
+ 
+## bidirectional
+just use the directional to learn a better non-linear.
