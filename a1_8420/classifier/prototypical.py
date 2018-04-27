@@ -78,7 +78,9 @@ class PrototypicalNet:
                     f.write('epoch:{}\n'.format(i))
                 self.train(module)
                 self.test(module)
+            print('linear1:\n')
             print(module.linear1.weight)
+            print('linear2:\n')
             print(module.linear2.weight)
 
     def train(self,module):
