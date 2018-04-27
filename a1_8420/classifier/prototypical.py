@@ -9,12 +9,12 @@ class Net(tr.nn.Module):
         self.nn_config = nn_config
         in_dim = self.nn_config['feature_dim']
         out_dim = self.nn_config['layer_dim'][0]
-        self.linear1 = tr.nn.Linear(in_dim,out_dim,bias=True)
-        # self.linear2 = tr.nn.Linear(out_dim,in_dim)
+        self.linear1 = tr.nn.Linear(in_dim,out_dim, bias=True)
+        self.linear2 = tr.nn.Linear(out_dim,in_dim, bias=True)
+        self.linear2.weight=self.linear1.weight
 
-    def bidirection(self,X):
+    def compress_img(self,X):
         pass
-
 
     def forward_nonlinear(self,X):
         linear_layer1 = self.linear1(X)
@@ -78,6 +78,8 @@ class PrototypicalNet:
                     f.write('epoch:{}\n'.format(i))
                 self.train(module)
                 self.test(module)
+            print(module.linear1.weight)
+            print(module.linear2.weight)
 
     def train(self,module):
         dataiter = self.df.train_feeder()
