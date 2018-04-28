@@ -134,6 +134,7 @@ class PrototypicalNet:
             optim.zero_grad()
             de_X = module.compress_img(tr.autograd.Variable(X,requires_grad=False))
             loss = module.MSE_loss(input = de_X,target=tr.autograd.Variable(X,requires_grad=False))
+            print('comp_loss: ',loss.data)
             loss.backward()
             optim.step()
         # with open(self.nn_config['report_filePath'], 'a+') as f:
