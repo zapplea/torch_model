@@ -65,8 +65,6 @@ class ImgCompNet(tr.nn.Module):
         self.weight_average()
         hidden_layer = F.tanh(self.linear1(X))
         hidden_layer = self.linear2(hidden_layer)
-
-
         return hidden_layer
 
     def weight_average(self):
@@ -99,21 +97,19 @@ class PrototypicalNet:
 
     def classifier(self):
         with tr.cuda.device(self.nn_config['gpu']):
-            # # train the shared-weight network
-            # module=ImgCompNet(self.nn_config)
-            # if self.nn_config['cuda'] and tr.cuda.is_available():
-            #     module.cuda()
-            # for i in range(self.nn_config['epoch']):
-            #     # with open(self.nn_config['report_filePath'],'a+') as f:
-            #     #     f.write('ImgCompNet_epoch:{}\n'.format(i))
-            #     self.train_compress(module)
-            #
-            # module = module.cpu()
-            #
-            # # train the prototypical network
-            # module = Net(self.nn_config,module.linear1.weight)
+            # train the shared-weight network
+            module=ImgCompNet(self.nn_config)
+            if self.nn_config['cuda'] and tr.cuda.is_available():
+                module.cuda()
+            for i in range(self.nn_config['epoch']):
+                # with open(self.nn_config['report_filePath'],'a+') as f:
+                #     f.write('ImgCompNet_epoch:{}\n'.format(i))
+                self.train_compress(module)
 
-            module = Net(self.nn_config)
+            module = module.cpu()
+
+            # train the prototypical network
+            module = Net(self.nn_config,module.linear1.weight)
             if self.nn_config['cuda'] and tr.cuda.is_available():
                 module.cuda()
             for i in range(self.nn_config['epoch']):

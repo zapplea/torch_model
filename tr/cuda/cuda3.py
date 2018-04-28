@@ -13,7 +13,7 @@ class Net(tr.nn.Module):
     def forward(self):
         X = tr.autograd.Variable(tr.FloatTensor(np.ones(shape=(2, 3))))
         W = self.W3
-        W.data = tr.div(W.data,10)
+        #W.data = tr.div(W.data,10)
         # print(self.linear.weight)
         return W
 
@@ -22,4 +22,6 @@ model = Net()
 model.cuda()
 model.train()
 W = model()
+W = W.cuda()
+W.data = tr.div(W.data,10)
 print(W.data)
