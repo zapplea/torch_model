@@ -14,7 +14,7 @@ class Net(tr.nn.Module):
 
     def forward_nonlinear(self,X):
         linear_layer1 = self.linear1(X)
-        hidden_layer = F.tanh(linear_layer1)
+        hidden_layer = F.relu(linear_layer1)
         return hidden_layer
 
     def forward_sample(self,X):
