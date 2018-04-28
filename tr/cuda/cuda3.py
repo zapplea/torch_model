@@ -21,4 +21,4 @@ class Net(tr.nn.Module):
 model = Net()
 model.cuda()
 W = model()
-print(W.data)
+print(W.cuda().data)
