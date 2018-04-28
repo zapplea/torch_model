@@ -4,17 +4,18 @@ import numpy as np
 import sklearn.metrics
 
 class Net(tr.nn.Module):
-    def __init__(self,nn_config,weight_initial):
+    def __init__(self,nn_config,**kwargs):
         super(Net,self).__init__()
         self.nn_config = nn_config
         in_dim = self.nn_config['feature_dim']
         out_dim = self.nn_config['layer_dim'][0]
         self.linear1 = tr.nn.Linear(in_dim,out_dim, bias=True)
-        self.linear1.weight.data=weight_initial
+        if self.nn_config['is_share_weight']:
+            self.linear1.weight.data=kwargs['weight_initial']
 
     def forward_nonlinear(self,X):
         linear_layer1 = self.linear1(X)
-        hidden_layer = F.relu(linear_layer1)
+        hidden_layer = F.tanh(linear_layer1)
         return hidden_layer
 
     def forward_sample(self,X):
@@ -84,8 +85,6 @@ class ImgCompNet(tr.nn.Module):
         return loss(input,target)
 
 
-
-
 class PrototypicalNet:
     def __init__(self,nn_config,df):
         self.nn_config = nn_config
@@ -115,7 +114,7 @@ class PrototypicalNet:
             for i in range(self.nn_config['epoch']):
                 with open(self.nn_config['report_filePath'],'a+') as f:
                     f.write('ProtoNet_epoch:{}\n'.format(i))
-                self.train(module)
+                self.train_proto(module)
                 self.test(module)
 
     def train_compress(self,module):
@@ -135,7 +134,7 @@ class PrototypicalNet:
         # with open(self.nn_config['report_filePath'], 'a+') as f:
         #     f.write('loss:{:.4f}\n'.format(loss.cpu().data.numpy()))
 
-    def train(self,module):
+    def train_proto(self,module):
         dataiter = self.df.train_feeder()
         C = tr.FloatTensor(self.df.prototype_feeder(self.nn_config['k_shot']))
         optim = self.optimizer(module)

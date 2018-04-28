@@ -99,7 +99,7 @@ class Cascading:
         return knn_features,knn_labels
 
     def validation(self,module):
-        f = open(self.nn_config['report_filePath'],'a+')
+        #f = open(self.nn_config['report_filePath'],'a+')
         dataiter = self.df.validation_feeder()
         for X,y_ in dataiter:
             if self.nn_config['cuda'] and tr.cuda.is_available():
@@ -114,9 +114,9 @@ class Cascading:
             pred_labels = self.prediction(score.data.numpy())
             knn_features, knn_labels = self.knn_matrix_generator(y_.numpy().astype('float32'), pred_labels, X.numpy())
             f1, accuracy = self.metrics(y_.numpy().astype('float32'), pred_labels)
-            f.write('Validation: loss:{:.4f}, accuracy:{:.4f}, f1:{:.4f}\n'.format(float(loss.data.numpy()), float(f1), float(accuracy)))
-            f.flush()
-        f.close()
+            # f.write('Validation: loss:{:.4f}, accuracy:{:.4f}, f1:{:.4f}\n'.format(float(loss.data.numpy()), float(f1), float(accuracy)))
+            # f.flush()
+        #f.close()
         return knn_features,knn_labels
 
     def knn(self,knn_features,knn_labels,X,pred_labels):
