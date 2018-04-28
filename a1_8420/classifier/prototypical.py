@@ -114,8 +114,10 @@ class PrototypicalNet:
                     f.write('ProtoNet_epoch:{}\n'.format(i))
                 self.train(module)
                 self.test(module)
+            print('===============')
             print(module.linear1.weight)
             print(module.linear2.weight.transpose(0,1))
+            print('===============')
 
     def train_compress(self,module):
         dataiter = self.df.train_feeder()
