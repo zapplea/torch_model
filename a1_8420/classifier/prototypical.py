@@ -103,6 +103,8 @@ class PrototypicalNet:
                 # with open(self.nn_config['report_filePath'],'a+') as f:
                 #     f.write('ImgCompNet_epoch:{}\n'.format(i))
                 self.train_compress(module)
+                print(module.linear1.weight)
+            print('share_weight')
             if self.nn_config['cuda'] and tr.cuda.is_available():
                 module = module.cpu()
             # create prototypical network
