@@ -4,15 +4,13 @@ import numpy as np
 import sklearn.metrics
 
 class Net(tr.nn.Module):
-    def __init__(self,nn_config):
+    def __init__(self,nn_config,weight):
         super(Net,self).__init__()
         self.nn_config = nn_config
         in_dim = self.nn_config['feature_dim']
         out_dim = self.nn_config['layer_dim'][0]
         self.linear1 = tr.nn.Linear(in_dim,out_dim, bias=True)
-        # self.linear1.weight=weight
-        self.linear2 = tr.nn.Linear(out_dim, in_dim, bias=True)
-        self.linear2.weight = tr.nn.Parameter(self.linear1.weight.transpose(0, 1), requires_grad=True)
+        self.linear1.weight=weight
 
     def forward_nonlinear(self,X):
         linear_layer1 = self.linear1(X)
@@ -61,12 +59,21 @@ class ImgCompNet(tr.nn.Module):
         out_dim = self.nn_config['layer_dim'][0]
         self.linear1 = tr.nn.Linear(in_dim,out_dim, bias=True)
         self.linear2 = tr.nn.Linear(out_dim,in_dim, bias=True)
-        self.linear2.weight=tr.nn.Parameter(self.linear1.weight.transpose(0,1),requires_grad=True)
+
 
     def compress_img(self, X):
+        self.weight_average()
         hidden_layer = F.tanh(self.linear1(X))
         hidden_layer = self.linear2(hidden_layer)
+
+
         return hidden_layer
+
+    def weight_average(self):
+        average = tr.div(tr.add(self.linear1.weight.data,self.linear2.weight.t().data),2)
+        self.linear1.weight.data=average
+        self.linear2.weight.data=average
+
 
     def loss(self, X, de_X):
         """

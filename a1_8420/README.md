@@ -6,6 +6,9 @@ package list:
 GPU: all gpu when set nn_config['cuda'] to True and the pytorch can detect available gpu. The default gpu device is 0, and
 can change the device to set nn_config['gpu'] to the gpu device number available.
 
+# constraings
+The k_shot should not be less or equal to 90
+
 program instruction:
 TODO: Normalize the data
 Normlize data(seems not necessary in this work, because ..)

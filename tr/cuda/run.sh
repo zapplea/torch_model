@@ -15,4 +15,4 @@ module load cudnn/v7.1.2-cuda91
 module load cuda/9.1.85
 module load pytorch/0.3.1-py36-cuda91
 echo "loaded"
-python cuda2.py
+python cuda3.py
