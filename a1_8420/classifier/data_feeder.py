@@ -35,41 +35,42 @@ class DataFeeder:
                               shuffle='True')
         return dataiter
 
-    def validation_feeder(self):
-        dataiter = DataLoader(myDataset(self.train_features[self.data_config['train_data_len']:(self.data_config['train_data_len']+self.data_config['validation_data_len'])],
-                                        self.train_labels[self.data_config['train_data_len']:(self.data_config['train_data_len']+self.data_config['validation_data_len'])]),
-                              batch_size=self.data_config['validation_data_len'],
-                              shuffle='True')
-        return dataiter
-
-    # def validation_feeder(self,k_shot):
-    #     features = self.train_features[self.data_config['train_data_len']:(self.data_config['train_data_len'] + self.data_config['validation_data_len'])]
-    #     labels = self.train_labels[self.data_config['train_data_len']:(self.data_config['train_data_len'] + self.data_config['validation_data_len'])]
-    #     length = len(features)
-    #     prototypes_freq = {}
-    #     validation_features =[]
-    #     validation_labels = []
-    #     if k_shot == None:
-    #         k_shot = float('inf')
-    #     for i in range(length):
-    #         prototype = features[i]
-    #         label = labels[i]
-    #         if label not in prototypes_freq:
-    #             prototypes_freq[label] = 1
-    #             validation_features.append(prototype)
-    #             validation_labels.append(label)
-    #         else:
-    #             if prototypes_freq[label] < k_shot:
-    #                 prototypes_freq[label] += 1
-    #                 validation_features.append(prototype)
-    #                 validation_labels.append(label)
-    #
-    #
-    #     dataiter = DataLoader(myDataset(np.array(validation_features,dtype='float32'),
-    #                                     np.array(validation_labels,dtype='float64')),
+    # def validation_feeder(self):
+    #     dataiter = DataLoader(myDataset(self.train_features[self.data_config['train_data_len']:(self.data_config['train_data_len']+self.data_config['validation_data_len'])],
+    #                                     self.train_labels[self.data_config['train_data_len']:(self.data_config['train_data_len']+self.data_config['validation_data_len'])]),
     #                           batch_size=self.data_config['validation_data_len'],
     #                           shuffle='True')
     #     return dataiter
+
+    def validation_feeder(self):
+        k_shot = self.data_config['k_shot']
+        features = self.train_features[self.data_config['train_data_len']:(self.data_config['train_data_len'] + self.data_config['validation_data_len'])]
+        labels = self.train_labels[self.data_config['train_data_len']:(self.data_config['train_data_len'] + self.data_config['validation_data_len'])]
+        length = len(features)
+        prototypes_freq = {}
+        validation_features =[]
+        validation_labels = []
+        if k_shot == None:
+            k_shot = 50
+        for i in range(length):
+            prototype = features[i]
+            label = labels[i]
+            if label not in prototypes_freq:
+                prototypes_freq[label] = 1
+                validation_features.append(prototype)
+                validation_labels.append(label)
+            else:
+                if prototypes_freq[label] < k_shot:
+                    prototypes_freq[label] += 1
+                    validation_features.append(prototype)
+                    validation_labels.append(label)
+
+
+        dataiter = DataLoader(myDataset(np.array(validation_features,dtype='float32'),
+                                        np.array(validation_labels,dtype='float64')),
+                              batch_size=self.data_config['validation_data_len'],
+                              shuffle='True')
+        return dataiter
 
     def prototype_feeder(self,k_shot):
         """
@@ -83,7 +84,7 @@ class DataFeeder:
         prototypes_freq = {}
         prototypes = {}
         if k_shot == None:
-            k_shot = float('inf')
+            k_shot = 50
         for i in range(length):
             prototype = features[i]
             label = labels[i]

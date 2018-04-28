@@ -15,7 +15,8 @@ if __name__=="__main__":
                    'truncated_len': 1434,
                    'validation_data_len': 946,
                    'test_data_len': 1797,
-                   'batch_size':seed['batch_size']
+                   'batch_size':seed['batch_size'],
+                   'k-shot': 50
                    }
 
     nn_config = {'feature_dim':64,
@@ -32,6 +33,6 @@ if __name__=="__main__":
                  'neigh_num':3,
                  'report_filePath':'/datastore/liu121/torch_data/a1_8420/report.cs',
                  'cuda':True,
-                 'gpu':0}
+                 'gpu':0,}
 
     main(data_config,nn_config)
