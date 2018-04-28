@@ -4,17 +4,13 @@ import numpy as np
 import sklearn.metrics
 
 class Net(tr.nn.Module):
-    def __init__(self,nn_config):
+    def __init__(self,nn_config,weight):
         super(Net,self).__init__()
         self.nn_config = nn_config
         in_dim = self.nn_config['feature_dim']
         out_dim = self.nn_config['layer_dim'][0]
         self.linear1 = tr.nn.Linear(in_dim,out_dim, bias=True)
-        self.linear2 = tr.nn.Linear(out_dim,in_dim, bias=True)
-        self.linear2.weight=self.linear1.weight
-
-    def compress_img(self,X):
-        pass
+        self.linear1.weight=weight
 
     def forward_nonlinear(self,X):
         linear_layer1 = self.linear1(X)
@@ -55,6 +51,29 @@ class Net(tr.nn.Module):
         loss = tr.nn.NLLLoss(size_average=True,reduce=True)
         return loss(input,target)
 
+class ImgCompNet(tr.nn.Module):
+    def __init__(self,nn_config):
+        super(Net,self).__init__()
+        self.nn_config = nn_config
+        in_dim = self.nn_config['feature_dim']
+        out_dim = self.nn_config['layer_dim'][0]
+        self.linear1 = tr.nn.Linear(in_dim,out_dim, bias=True)
+        self.linear2 = tr.nn.Linear(out_dim,in_dim, bias=True)
+        self.linear2.weight=self.linear1.weight
+
+    def compress_img(self, X):
+        hidden_layer = F.tanh(self.linear1(X))
+        return self.linear2(hidden_layer)
+
+    def loss(self, X, de_X):
+        """
+
+        :param X: shape=(batch size, feature dim)
+        :param de_X: 
+        :return: 
+        """
+        loss = F.cosine_similarity(X, de_X, dim=1)
+        return loss
 
 
 
@@ -70,24 +89,43 @@ class PrototypicalNet:
 
     def classifier(self):
         with tr.cuda.device(self.nn_config['gpu']):
-            module = Net(self.nn_config)
+            # train the shared-weight network
+            module=ImgCompNet(self.nn_config)
             if self.nn_config['cuda'] and tr.cuda.is_available():
                 module.cuda()
             for i in range(self.nn_config['epoch']):
                 with open(self.nn_config['report_filePath'],'a+') as f:
-                    f.write('epoch:{}\n'.format(i))
+                    f.write('ImgCompNet_epoch:{}\n'.format(i))
+                self.train_compress(module)
+            module = module.cpu()
+            # train the prototypical network
+            module = Net(self.nn_config,module.linear1.weight)
+            if self.nn_config['cuda'] and tr.cuda.is_available():
+                module.cuda()
+            for i in range(self.nn_config['epoch']):
+                with open(self.nn_config['report_filePath'],'a+') as f:
+                    f.write('ProtoNet_epoch:{}\n'.format(i))
                 self.train(module)
                 self.test(module)
-            print('linear1:\n')
-            print(module.linear1.weight)
-            print('linear2:\n')
-            print(module.linear2.weight)
+
+    def train_compress(self,module):
+        dataiter = self.df.train_feeder()
+        optim = self.optimizer(module)
+        for X, _ in dataiter:
+            if self.nn_config['cuda'] and tr.cuda.is_available():
+                X= X.cuda()
+            optim.zero_grad()
+            de_X = module.compress_img(X)
+            loss = module.loss(X,de_X)
+            loss.backward()
+            optim.step()
+        with open(self.nn_config['report_filePath'], 'a+') as f:
+            f.write('loss:{:.4f}\n'.format(loss.cpu().data.numpy()))
 
     def train(self,module):
         dataiter = self.df.train_feeder()
         C = tr.FloatTensor(self.df.prototype_feeder(self.nn_config['k_shot']))
         optim = self.optimizer(module)
-
         for X,y_ in dataiter:
             if self.nn_config['cuda'] and tr.cuda.is_available():
                 X,y_,C = X.cuda(),y_.cuda(),C.cuda()
