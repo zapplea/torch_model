@@ -100,20 +100,17 @@ class Cascading:
 
     def validation(self,module):
         f = open(self.nn_config['report_filePath'],'a+')
-        dataiter = self.df.validation_feeder(self.nn_config['k_shot'])
-        print('1')
+        dataiter = self.df.validation_feeder()
         for X,y_ in dataiter:
             if self.nn_config['cuda'] and tr.cuda.is_available():
                 X,y_ = X.cuda(),y_.cuda()
             score = module.forward(tr.autograd.Variable(X,requires_grad=False))
             loss = module.cross_entropy_loss(score,tr.autograd.Variable(y_.long(),requires_grad=False))
-            print('2')
             if self.nn_config['cuda'] and tr.cuda.is_available():
                 score = score.cpu()
                 y_= y_.cpu()
                 X = X.cpu()
                 loss = loss.cpu()
-            print('3')
             pred_labels = self.prediction(score.data.numpy())
             knn_features, knn_labels = self.knn_matrix_generator(y_.numpy().astype('float32'), pred_labels, X.numpy())
             f1, accuracy = self.metrics(y_.numpy().astype('float32'), pred_labels)
