@@ -95,13 +95,12 @@ class PrototypicalNet:
         return optim
 
     def classifier(self):
-        print(self.nn_config['is_share_weight'])
         if self.nn_config['is_share_weight']:
             # train the shared-weight network
             module=ImgCompNet(self.nn_config)
             if self.nn_config['cuda'] and tr.cuda.is_available():
                 module.cuda()
-            for i in range(self.nn_config['epoch']):
+            for i in range(self.nn_config['comp_epoch']):
                 # with open(self.nn_config['report_filePath'],'a+') as f:
                 #     f.write('ImgCompNet_epoch:{}\n'.format(i))
                 self.train_compress(module)
@@ -117,8 +116,6 @@ class PrototypicalNet:
         if self.nn_config['cuda'] and tr.cuda.is_available():
             module.cuda()
         for i in range(self.nn_config['epoch']):
-            print('epoch:{}'.format(i))
-            print(module.linear1.weight)
             with open(self.nn_config['report_filePath'],'a+') as f:
                 f.write('ProtoNet_epoch:{}\n'.format(i))
             self.train_proto(module)
