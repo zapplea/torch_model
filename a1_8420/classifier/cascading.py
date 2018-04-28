@@ -100,7 +100,7 @@ class Cascading:
 
     def validation(self,module):
         f = open(self.nn_config['report_filePath'],'a+')
-        dataiter = self.df.validation_feeder()
+        dataiter = self.df.validation_feeder(self.nn_config['k_shot'])
         for X,y_ in dataiter:
             if self.nn_config['cuda'] and tr.cuda.is_available():
                 X,y_ = X.cuda(),y_.cuda()
