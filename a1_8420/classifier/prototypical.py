@@ -59,16 +59,11 @@ class ImgCompNet(tr.nn.Module):
         out_dim = self.nn_config['layer_dim'][0]
         self.linear1 = tr.nn.Linear(in_dim,out_dim, bias=True)
         self.linear2 = tr.nn.Linear(out_dim,in_dim, bias=True)
-        self.linear2.weight=self.linear1.weight
+        self.linear2.weight=self.linear1.weight.transpose(0,1)
 
     def compress_img(self, X):
-        print('4: ')
         hidden_layer = F.tanh(self.linear1(X))
-        print(hidden_layer.size())
-        print('5: ')
         hidden_layer = self.linear2(hidden_layer)
-        print(hidden_layer.size())
-        print('6')
         return hidden_layer
 
     def loss(self, X, de_X):
@@ -122,11 +117,11 @@ class PrototypicalNet:
             if self.nn_config['cuda'] and tr.cuda.is_available():
                 X= X.cuda()
             optim.zero_grad()
-            print('1')
+            # print('1')
             de_X = module.compress_img(tr.autograd.Variable(X,requires_grad=False))
-            print('2')
+            # print('2')
             loss = module.loss(X,de_X)
-            print('3')
+            # print('3')
             loss.backward()
             optim.step()
         # with open(self.nn_config['report_filePath'], 'a+') as f:
