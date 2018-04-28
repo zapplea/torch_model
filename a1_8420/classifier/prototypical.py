@@ -11,7 +11,7 @@ class Net(tr.nn.Module):
         out_dim = self.nn_config['layer_dim'][0]
         self.linear1 = tr.nn.Linear(in_dim,out_dim, bias=True)
         if self.nn_config['is_share_weight']:
-            self.linear1.weight.data=kwargs['weight_initial']
+            self.linear1.weight=tr.nn.Parameter(kwargs['weight_initial'],requires_grad=True)
 
     def forward_nonlinear(self,X):
         linear_layer1 = self.linear1(X)
@@ -104,10 +104,9 @@ class PrototypicalNet:
                 # with open(self.nn_config['report_filePath'],'a+') as f:
                 #     f.write('ImgCompNet_epoch:{}\n'.format(i))
                 self.train_compress(module)
-            if self.nn_config['cuda'] and tr.cuda.is_available():
-                module = module.cpu()
+
             # create prototypical network
-            module = Net(self.nn_config, weight_initial=module.linear1.weight.data)
+            module = Net(self.nn_config, weight_initial=module.linear1.weight.cpu().data)
         else:
             # create prototypical network
             module = Net(self.nn_config)
