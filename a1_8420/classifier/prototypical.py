@@ -53,7 +53,7 @@ class Net(tr.nn.Module):
 
 class ImgCompNet(tr.nn.Module):
     def __init__(self,nn_config):
-        super(Net,self).__init__()
+        super(ImgCompNet,self).__init__()
         self.nn_config = nn_config
         in_dim = self.nn_config['feature_dim']
         out_dim = self.nn_config['layer_dim'][0]
