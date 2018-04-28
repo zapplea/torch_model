@@ -94,6 +94,7 @@ class PrototypicalNet:
         return optim
 
     def classifier(self):
+        print(self.nn_config['is_share_weight'])
         if self.nn_config['is_share_weight']:
             # train the shared-weight network
             module=ImgCompNet(self.nn_config)
