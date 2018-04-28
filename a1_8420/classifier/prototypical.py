@@ -62,10 +62,14 @@ class ImgCompNet(tr.nn.Module):
         self.linear2.weight=self.linear1.weight
 
     def compress_img(self, X):
-        print('4')
+        print('4: ')
         hidden_layer = F.tanh(self.linear1(X))
-        print('5')
-        return self.linear2(hidden_layer)
+        print(hidden_layer.size())
+        print('5: ')
+        hidden_layer = self.linear2(hidden_layer)
+        print(hidden_layer.size())
+        print('6')
+        return hidden_layer
 
     def loss(self, X, de_X):
         """
