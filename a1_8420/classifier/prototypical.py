@@ -123,7 +123,7 @@ class PrototypicalNet:
                 f.write('ProtoNet_epoch:{}\n'.format(i))
             self.train_proto(module)
             self.test(module)
-            print(module.linear1.weight)
+            #print(module.linear1.weight)
 
     def train_compress(self,module):
         dataiter = self.df.train_feeder()
