@@ -22,7 +22,7 @@ if __name__ =="__main__":
         {'feature_dim': 64,
          'layer_dim': [100],
          'label_dim': 10,
-         'lr': 0.03,
+         'lr': 0.0003,
          'weight_decay': 0.00003,
          'epoch': 60,
          'mod': 20,

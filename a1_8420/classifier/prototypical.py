@@ -11,7 +11,8 @@ class Net(tr.nn.Module):
         out_dim = self.nn_config['layer_dim'][0]
         self.linear1 = tr.nn.Linear(in_dim,out_dim, bias=True)
         if self.nn_config['is_share_weight']:
-            self.linear1.weight=tr.nn.Parameter(kwargs['weight_initial'],requires_grad=False)
+            self.linear1.weight=tr.nn.Parameter(kwargs['weight_initial'],requires_grad=True)
+            self.linear1.bias = tr.nn.Parameter(kwargs['bias_initial'], requires_grad = True)
 
     def forward_nonlinear(self,X):
         linear_layer1 = self.linear1(X)
@@ -106,7 +107,7 @@ class PrototypicalNet:
                 self.train_compress(module)
 
             # create prototypical network
-            module = Net(self.nn_config, weight_initial=module.linear1.weight.cpu().data)
+            module = Net(self.nn_config, weight_initial=module.linear1.weight.cpu().data,bias_initial=module.linear1.bias.cpu().data)
         else:
             # create prototypical network
             module = Net(self.nn_config)
