@@ -94,8 +94,8 @@ class PrototypicalNet:
             if self.nn_config['cuda'] and tr.cuda.is_available():
                 module.cuda()
             for i in range(self.nn_config['epoch']):
-                with open(self.nn_config['report_filePath'],'a+') as f:
-                    f.write('ImgCompNet_epoch:{}\n'.format(i))
+                # with open(self.nn_config['report_filePath'],'a+') as f:
+                #     f.write('ImgCompNet_epoch:{}\n'.format(i))
                 self.train_compress(module)
 
             module = module.cpu()
@@ -120,8 +120,8 @@ class PrototypicalNet:
             loss = module.loss(X,de_X)
             loss.backward()
             optim.step()
-        with open(self.nn_config['report_filePath'], 'a+') as f:
-            f.write('loss:{:.4f}\n'.format(loss.cpu().data.numpy()))
+        # with open(self.nn_config['report_filePath'], 'a+') as f:
+        #     f.write('loss:{:.4f}\n'.format(loss.cpu().data.numpy()))
 
     def train(self,module):
         dataiter = self.df.train_feeder()

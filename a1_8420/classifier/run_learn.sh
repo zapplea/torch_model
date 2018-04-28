@@ -24,6 +24,6 @@ then
 elif test $1 = "pt";
 then
     echo rm report.pt
-    rm /datastore/liu121/torch_data/a1_8420/report.pt
+    rm /datastore/liu121/torch_data/a1_8420/report.pt*
     python prototypical_learn.py
 fi
