@@ -104,8 +104,8 @@ class PrototypicalNet:
                 # with open(self.nn_config['report_filePath'],'a+') as f:
                 #     f.write('ImgCompNet_epoch:{}\n'.format(i))
                 self.train_compress(module)
-                #print(module.linear1.weight)
-            #print('share_weight')
+                print('epoch:{}'.format(i))
+                print(module.linear1.weight)
             if self.nn_config['cuda'] and tr.cuda.is_available():
                 module = module.cpu()
             # create prototypical network
@@ -134,7 +134,6 @@ class PrototypicalNet:
             optim.zero_grad()
             de_X = module.compress_img(tr.autograd.Variable(X,requires_grad=False))
             loss = module.MSE_loss(input = de_X,target=tr.autograd.Variable(X,requires_grad=False))
-            print('comp_loss: ',loss.data)
             loss.backward()
             optim.step()
         # with open(self.nn_config['report_filePath'], 'a+') as f:
