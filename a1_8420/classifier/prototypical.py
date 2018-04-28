@@ -116,11 +116,11 @@ class PrototypicalNet:
             if self.nn_config['cuda'] and tr.cuda.is_available():
                 X= X.cuda()
             optim.zero_grad()
-            print('1')
-            de_X = module.compress_img(X)
-            print('2')
+            #print('1')
+            de_X = module.compress_img(tr.autograd.Variable(X,requires_grad=False))
+            #print('2')
             loss = module.loss(X,de_X)
-            print('3')
+            #print('3')
             loss.backward()
             optim.step()
         # with open(self.nn_config['report_filePath'], 'a+') as f:
