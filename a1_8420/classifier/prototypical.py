@@ -4,13 +4,15 @@ import numpy as np
 import sklearn.metrics
 
 class Net(tr.nn.Module):
-    def __init__(self,nn_config,weight):
+    def __init__(self,nn_config):
         super(Net,self).__init__()
         self.nn_config = nn_config
         in_dim = self.nn_config['feature_dim']
         out_dim = self.nn_config['layer_dim'][0]
         self.linear1 = tr.nn.Linear(in_dim,out_dim, bias=True)
-        self.linear1.weight=weight
+        # self.linear1.weight=weight
+        self.linear2 = tr.nn.Linear(out_dim, in_dim, bias=True)
+        self.linear2.weight = tr.nn.Parameter(self.linear1.weight.transpose(0, 1), requires_grad=True)
 
     def forward_nonlinear(self,X):
         linear_layer1 = self.linear1(X)
@@ -59,7 +61,7 @@ class ImgCompNet(tr.nn.Module):
         out_dim = self.nn_config['layer_dim'][0]
         self.linear1 = tr.nn.Linear(in_dim,out_dim, bias=True)
         self.linear2 = tr.nn.Linear(out_dim,in_dim, bias=True)
-        self.linear2.weight=self.linear1.weight.transpose(0,1)
+        self.linear2.weight=tr.nn.Parameter(self.linear1.weight.transpose(0,1),requires_grad=True)
 
     def compress_img(self, X):
         hidden_layer = F.tanh(self.linear1(X))
@@ -90,18 +92,21 @@ class PrototypicalNet:
 
     def classifier(self):
         with tr.cuda.device(self.nn_config['gpu']):
-            # train the shared-weight network
-            module=ImgCompNet(self.nn_config)
-            if self.nn_config['cuda'] and tr.cuda.is_available():
-                module.cuda()
-            for i in range(self.nn_config['epoch']):
-                # with open(self.nn_config['report_filePath'],'a+') as f:
-                #     f.write('ImgCompNet_epoch:{}\n'.format(i))
-                self.train_compress(module)
+            # # train the shared-weight network
+            # module=ImgCompNet(self.nn_config)
+            # if self.nn_config['cuda'] and tr.cuda.is_available():
+            #     module.cuda()
+            # for i in range(self.nn_config['epoch']):
+            #     # with open(self.nn_config['report_filePath'],'a+') as f:
+            #     #     f.write('ImgCompNet_epoch:{}\n'.format(i))
+            #     self.train_compress(module)
+            #
+            # module = module.cpu()
+            #
+            # # train the prototypical network
+            # module = Net(self.nn_config,module.linear1.weight)
 
-            module = module.cpu()
-            # train the prototypical network
-            module = Net(self.nn_config,module.linear1.weight)
+            module = Net(self.nn_config)
             if self.nn_config['cuda'] and tr.cuda.is_available():
                 module.cuda()
             for i in range(self.nn_config['epoch']):
@@ -109,6 +114,8 @@ class PrototypicalNet:
                     f.write('ProtoNet_epoch:{}\n'.format(i))
                 self.train(module)
                 self.test(module)
+            print(module.linear1.weight)
+            print(module.linear2.weight.transpose(0,1))
 
     def train_compress(self,module):
         dataiter = self.df.train_feeder()
