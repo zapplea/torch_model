@@ -76,7 +76,6 @@ class ImgCompNet(tr.nn.Module):
 
     def MSE_loss(self, input, target):
         """
-
         :param X: shape=(batch size, feature dim)
         :param de_X: 
         :return: 
@@ -95,7 +94,7 @@ class PrototypicalNet:
         return optim
 
     def classifier(self):
-        with tr.cuda.device(self.nn_config['gpu']):
+        if self.nn_config['is_share_weight']:
             # train the shared-weight network
             module=ImgCompNet(self.nn_config)
             if self.nn_config['cuda'] and tr.cuda.is_available():
@@ -104,18 +103,23 @@ class PrototypicalNet:
                 # with open(self.nn_config['report_filePath'],'a+') as f:
                 #     f.write('ImgCompNet_epoch:{}\n'.format(i))
                 self.train_compress(module)
-
-            module = module.cpu()
-
-            # train the prototypical network
-            module = Net(self.nn_config,module.linear1.weight.data)
             if self.nn_config['cuda'] and tr.cuda.is_available():
-                module.cuda()
-            for i in range(self.nn_config['epoch']):
-                with open(self.nn_config['report_filePath'],'a+') as f:
-                    f.write('ProtoNet_epoch:{}\n'.format(i))
-                self.train_proto(module)
-                self.test(module)
+                module = module.cpu()
+            # create prototypical network
+            module = Net(self.nn_config, weight_initial=module.linear1.weight.data)
+        else:
+            # create prototypical network
+            module = Net(self.nn_config)
+
+        # train the prototypical network
+
+        if self.nn_config['cuda'] and tr.cuda.is_available():
+            module.cuda()
+        for i in range(self.nn_config['epoch']):
+            with open(self.nn_config['report_filePath'],'a+') as f:
+                f.write('ProtoNet_epoch:{}\n'.format(i))
+            self.train_proto(module)
+            self.test(module)
 
     def train_compress(self,module):
         dataiter = self.df.train_feeder()

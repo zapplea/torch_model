@@ -16,6 +16,10 @@ The performance of the module is not stable. To get the best performance, you ma
 The best accuracy and f1 is 96.77%, when test written independent data. And this happens when loss is NaN
 which might mean loss is a absolutely small value.
 
+# TODO
+delete tr.cuda.device()
+freeze the parameter in non-linear layer.
+
 TODO:
 need to ask if the method can be from another paper, but I implement it and use features from tom.
 
