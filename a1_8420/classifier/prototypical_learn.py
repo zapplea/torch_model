@@ -25,7 +25,7 @@ if __name__ =="__main__":
          'lr': 0.00003,
          'weight_decay': 0.00003,
          'epoch': 60,
-         'comp_epoch':150,
+         'comp_epoch':100,
          'mod': 20,
          'batch_size': seed['batch_size'],
          'train_data_len': 1934,
