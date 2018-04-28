@@ -12,7 +12,7 @@ class Net(tr.nn.Module):
         self.linear1 = tr.nn.Linear(in_dim,out_dim, bias=True)
         if self.nn_config['is_share_weight']:
             self.linear1.weight=tr.nn.Parameter(kwargs['weight_initial'],requires_grad=True)
-            self.linear1.bias = tr.nn.Parameter(kwargs['bias_initial'], requires_grad = True)
+            self.linear1.bias = tr.nn.Parameter(kwargs['bias_initial'], requires_grad=True)
 
     def forward_nonlinear(self,X):
         linear_layer1 = self.linear1(X)
@@ -118,6 +118,7 @@ class PrototypicalNet:
             module.cuda()
         for i in range(self.nn_config['epoch']):
             print('epoch:{}'.format(i))
+            print(module.linear1.weight)
             with open(self.nn_config['report_filePath'],'a+') as f:
                 f.write('ProtoNet_epoch:{}\n'.format(i))
             self.train_proto(module)
@@ -143,7 +144,6 @@ class PrototypicalNet:
         C = tr.FloatTensor(self.df.prototype_feeder(self.nn_config['k_shot']))
         optim = self.optimizer(module)
         for X,y_ in dataiter:
-            print(module.linear1.weight)
             if self.nn_config['cuda'] and tr.cuda.is_available():
                 X,y_,C = X.cuda(),y_.cuda(),C.cuda()
             optim.zero_grad()
