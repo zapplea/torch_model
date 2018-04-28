@@ -4,13 +4,13 @@ import numpy as np
 import sklearn.metrics
 
 class Net(tr.nn.Module):
-    def __init__(self,nn_config,weight):
+    def __init__(self,nn_config,weight_initial):
         super(Net,self).__init__()
         self.nn_config = nn_config
         in_dim = self.nn_config['feature_dim']
         out_dim = self.nn_config['layer_dim'][0]
         self.linear1 = tr.nn.Linear(in_dim,out_dim, bias=True)
-        self.linear1.weight=weight
+        self.linear1.weight.data=weight_initial
 
     def forward_nonlinear(self,X):
         linear_layer1 = self.linear1(X)
@@ -109,7 +109,7 @@ class PrototypicalNet:
             module = module.cpu()
 
             # train the prototypical network
-            module = Net(self.nn_config,module.linear1.weight)
+            module = Net(self.nn_config,module.linear1.weight.data)
             if self.nn_config['cuda'] and tr.cuda.is_available():
                 module.cuda()
             for i in range(self.nn_config['epoch']):
