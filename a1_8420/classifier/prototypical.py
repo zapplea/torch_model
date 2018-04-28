@@ -70,7 +70,7 @@ class ImgCompNet(tr.nn.Module):
     def weight_average(self):
         average = tr.div(tr.add(self.linear1.weight.data,self.linear2.weight.t().data),2)
         self.linear1.weight.data=average
-        self.linear2.weight.data=average
+        self.linear2.weight.data=average.t()
 
 
     def loss(self, X, de_X):
