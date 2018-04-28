@@ -104,8 +104,6 @@ class PrototypicalNet:
                 # with open(self.nn_config['report_filePath'],'a+') as f:
                 #     f.write('ImgCompNet_epoch:{}\n'.format(i))
                 self.train_compress(module)
-                print('epoch:{}'.format(i))
-                print(module.linear1.weight)
             if self.nn_config['cuda'] and tr.cuda.is_available():
                 module = module.cpu()
             # create prototypical network
@@ -123,7 +121,8 @@ class PrototypicalNet:
                 f.write('ProtoNet_epoch:{}\n'.format(i))
             self.train_proto(module)
             self.test(module)
-            #print(module.linear1.weight)
+            print('epoch:{}'.format(i))
+            print(module.linear1.weight)
 
     def train_compress(self,module):
         dataiter = self.df.train_feeder()
