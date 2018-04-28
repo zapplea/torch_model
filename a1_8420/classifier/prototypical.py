@@ -73,15 +73,15 @@ class ImgCompNet(tr.nn.Module):
         self.linear2.weight.data=average.t()
 
 
-    def loss(self, X, de_X):
+    def MSE_loss(self, X, de_X):
         """
 
         :param X: shape=(batch size, feature dim)
         :param de_X: 
         :return: 
         """
-        loss = F.cosine_similarity(X, de_X, dim=1)
-        return loss
+        loss = tr.nn.MSELoss(size_average=True,reduce=True)
+        return loss(de_X,X)
 
 
 
@@ -117,10 +117,6 @@ class PrototypicalNet:
                     f.write('ProtoNet_epoch:{}\n'.format(i))
                 self.train(module)
                 self.test(module)
-            print('===============')
-            print(module.linear1.weight)
-            print(module.linear2.weight.transpose(0,1))
-            print('===============')
 
     def train_compress(self,module):
         dataiter = self.df.train_feeder()
@@ -132,7 +128,7 @@ class PrototypicalNet:
             # print('1')
             de_X = module.compress_img(tr.autograd.Variable(X,requires_grad=False))
             # print('2')
-            loss = module.loss(X,de_X)
+            loss = module.MSE_loss(X,de_X)
             # print('3')
             loss.backward()
             optim.step()
