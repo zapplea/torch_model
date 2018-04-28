@@ -73,7 +73,7 @@ class ImgCompNet(tr.nn.Module):
         self.linear2.weight.data=average.t()
 
 
-    def MSE_loss(self, X, de_X):
+    def MSE_loss(self, input, target):
         """
 
         :param X: shape=(batch size, feature dim)
@@ -81,7 +81,7 @@ class ImgCompNet(tr.nn.Module):
         :return: 
         """
         loss = tr.nn.MSELoss(size_average=True,reduce=True)
-        return loss(de_X,X)
+        return loss(input,target)
 
 
 
@@ -128,7 +128,7 @@ class PrototypicalNet:
             # print('1')
             de_X = module.compress_img(tr.autograd.Variable(X,requires_grad=False))
             # print('2')
-            loss = module.MSE_loss(X,de_X)
+            loss = module.MSE_loss(input = de_X,target=tr.autograd.Variable(X,requires_grad=False))
             # print('3')
             loss.backward()
             optim.step()
