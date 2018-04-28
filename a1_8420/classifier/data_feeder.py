@@ -93,7 +93,7 @@ if __name__ == "__main__":
     # for X,y_ in dataiter:
     #     print('feature size: ',X.size())
     #     print('label size: ',y_.size())
-    prototypes = df.prototype_feeder(k_shot=None)
+    prototypes = df.prototype_feeder(k_shot=40)
     for p in prototypes:
         print(type(p))
     print(type(prototypes))

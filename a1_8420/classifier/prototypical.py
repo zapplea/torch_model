@@ -97,6 +97,7 @@ class PrototypicalNet:
                 with open(self.nn_config['report_filePath'],'a+') as f:
                     f.write('ImgCompNet_epoch:{}\n'.format(i))
                 self.train_compress(module)
+
             module = module.cpu()
             # train the prototypical network
             module = Net(self.nn_config,module.linear1.weight)
