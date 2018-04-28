@@ -16,7 +16,7 @@ if __name__=="__main__":
                    'validation_data_len': 946,
                    'test_data_len': 1797,
                    'batch_size':seed['batch_size'],
-                   'k-shot': 50
+                   'k_shot': 50
                    }
 
     nn_config = {'feature_dim':64,
