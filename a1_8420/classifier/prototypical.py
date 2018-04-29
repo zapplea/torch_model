@@ -143,7 +143,7 @@ class PrototypicalNet:
             de_X = module.compress_img(tr.autograd.Variable(X,requires_grad=False))
             loss = module.MSE_loss(input = de_X,target=tr.autograd.Variable(X,requires_grad=False))
             with open(self.nn_config['report_filePath'], 'a+') as f:
-                f.write('loss:{:.4f}\n'.format(loss.cpu().data.numpy()))
+                f.write('loss:{:.4f}\n'.format(float(loss.cpu().data.numpy())))
 
     def train_proto(self,module):
         dataiter = self.df.train_feeder()
