@@ -10,7 +10,7 @@ if __name__=="__main__":
     seed = {'batch_size':30}
     data_config = {'train_data':'../dataset/optdigits.tra',
                    'test_data':'../dataset/optdigits.tes',
-                   'data_filePath':'/datastore/liu121/torch_data/a1_8420/data.pkl',
+                   'data_filePath':'../dataset/data.pkl',
                    'train_data_len': 1934,
                    'truncated_len': 1434,
                    'validation_data_len': 946,
@@ -31,7 +31,7 @@ if __name__=="__main__":
                  'validation_data_len': 946,
                  'test_data_len': 1797,
                  'neigh_num':3,
-                 'report_filePath':'/datastore/liu121/torch_data/a1_8420/report.cs',
+                 'report_filePath':'../report/report.cs',
                  'cuda':True,
                  'gpu':0,}
 

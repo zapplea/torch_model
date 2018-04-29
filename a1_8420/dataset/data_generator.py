@@ -40,7 +40,7 @@ class DataGenerator:
         train_features = np.array(train_features,dtype='float32')
         train_labels = np.array(train_labels,dtype='int64')
 
-        with open('/datastore/liu121/torch_data/a1_8420/data.pkl','wb') as f:
+        with open('data.pkl','wb') as f:
             pickle.dump({'test_features':test_features,
                          'test_labels':test_labels,
                          'train_features':train_features,
