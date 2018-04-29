@@ -1,7 +1,10 @@
 from data_feeder import DataFeeder
 from prototypical import PrototypicalNet
 
+import os
+
 def main(nn_config,data_config):
+    print(os.getcwd())
     df = DataFeeder(data_config)
     cl = PrototypicalNet(nn_config,df)
     cl.classifier()
