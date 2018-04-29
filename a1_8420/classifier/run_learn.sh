@@ -19,11 +19,12 @@ echo "loaded"
 if test $1 = "cs";
 then
     echo rm report.cs
-    rm /datastore/liu121/torch_data/a1_8420/report.cs
+    rm ../report/report_cascade.txt
     python cascading_learn.py
 elif test $1 = "pt";
 then
     echo rm report.pt
-    rm /datastore/liu121/torch_data/a1_8420/report.pt*
+    rm ../report/report_proto_with_share.txt
+    rm ../report/report_proto.txt
     python prototypical_learn.py
 fi
