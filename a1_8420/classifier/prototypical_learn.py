@@ -36,7 +36,6 @@ if __name__ =="__main__":
          'test_data_len': 1797,
          'report_filePath': '../report/report',
          'cuda': False,
-         'gpu': 0,
          'k_shot': 50,
          'is_share_weight': True},
 
@@ -53,7 +52,6 @@ if __name__ =="__main__":
          'test_data_len': 1797,
          'report_filePath': '../report/report',
          'cuda': False,
-         'gpu': 0,
          'k_shot': 50,
          'is_share_weight': False},
         ]

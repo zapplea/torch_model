@@ -32,7 +32,6 @@ if __name__=="__main__":
                  'test_data_len': 1797,
                  'neigh_num':3,
                  'report_filePath':'../report/report_cascade.txt',
-                 'cuda':False,
-                 'gpu':0,}
+                 'cuda':False,}
 
     main(data_config,nn_config)
