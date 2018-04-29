@@ -31,7 +31,7 @@ if __name__=="__main__":
                  'validation_data_len': 946,
                  'test_data_len': 1797,
                  'neigh_num':3,
-                 'report_filePath':'../report/report.cs',
+                 'report_filePath':'../report/report_cascade.txt',
                  'cuda':True,
                  'gpu':0,}
 

@@ -31,7 +31,7 @@ if __name__ =="__main__":
          'train_data_len': 1934,
          'validation_data_len': 946,
          'test_data_len': 1797,
-         'report_filePath': '../report/report.pt',
+         'report_filePath': '../report/report',
          'cuda': True,
          'gpu': 0,
          'k_shot': 50,
@@ -48,7 +48,7 @@ if __name__ =="__main__":
          'train_data_len': 1934,
          'validation_data_len': 946,
          'test_data_len': 1797,
-         'report_filePath': '../report/report.pt',
+         'report_filePath': '../report/report',
          'cuda': True,
          'gpu': 0,
          'k_shot': 50,
@@ -56,5 +56,8 @@ if __name__ =="__main__":
         ]
     for i in range(len(nn_configs)):
         nn_config = nn_configs[i]
-        nn_config['report_filePath']=nn_config['report_filePath']+str(i)
+        if nn_config['is_share_weight']:
+            nn_config['report_filePath']=nn_config['report_filePath']+'_proto_with_share.txt'
+        else:
+            nn_config['report_filePath']=nn_config['report_filePath']+'_proto.txt'
         main(nn_config,data_config)

@@ -101,10 +101,10 @@ class PrototypicalNet:
             if self.nn_config['cuda'] and tr.cuda.is_available():
                 module.cuda()
             for i in range(self.nn_config['comp_epoch']):
-                # with open(self.nn_config['report_filePath'],'a+') as f:
-                #     f.write('ImgCompNet_epoch:{}\n'.format(i))
+                with open(self.nn_config['report_filePath'],'a+') as f:
+                    f.write('ImgCompNet_epoch:{}\n'.format(i))
                 self.train_compress(module)
-
+                self.test_compress(module)
             # create prototypical network
             module = Net(self.nn_config, weight_initial=module.linear1.weight.cpu().data,bias_initial=module.linear1.bias.cpu().data)
         else:
@@ -119,7 +119,7 @@ class PrototypicalNet:
             with open(self.nn_config['report_filePath'],'a+') as f:
                 f.write('ProtoNet_epoch:{}\n'.format(i))
             self.train_proto(module)
-            self.test(module)
+            self.test_proto(module)
 
 
     def train_compress(self,module):
@@ -133,8 +133,17 @@ class PrototypicalNet:
             loss = module.MSE_loss(input = de_X,target=tr.autograd.Variable(X,requires_grad=False))
             loss.backward()
             optim.step()
-        # with open(self.nn_config['report_filePath'], 'a+') as f:
-        #     f.write('loss:{:.4f}\n'.format(loss.cpu().data.numpy()))
+
+
+    def test_compress(self, module):
+        test_data = self.df.test_feeder()
+        for X, _ in test_data:
+            if self.nn_config['cuda'] and tr.cuda.is_available():
+                X= X.cuda()
+            de_X = module.compress_img(tr.autograd.Variable(X,requires_grad=False))
+            loss = module.MSE_loss(input = de_X,target=tr.autograd.Variable(X,requires_grad=False))
+            with open(self.nn_config['report_filePath'], 'a+') as f:
+                f.write('loss:{:.4f}\n'.format(loss.cpu().data.numpy()))
 
     def train_proto(self,module):
         dataiter = self.df.train_feeder()
@@ -162,7 +171,7 @@ class PrototypicalNet:
         accuracy = sklearn.metrics.accuracy_score(y_true=true_labels,y_pred=pred_labels)
         return f1,accuracy
 
-    def test(self,module):
+    def test_proto(self,module):
         f=open(self.nn_config['report_filePath'],'a+')
         test_data =self.df.test_feeder()
         C = tr.FloatTensor(self.df.prototype_feeder(self.nn_config['k_shot']))
