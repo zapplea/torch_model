@@ -63,17 +63,15 @@ class Cascading:
         return f1,accuracy
 
     def classifier(self):
-
-        with tr.cuda.device(self.nn_config['gpu']):
-            module = Net(self.nn_config)
-            if self.nn_config['cuda'] and tr.cuda.is_available():
-                module.cuda()
-            for epoch in range(self.nn_config['epoch']):
-                with open(self.nn_config['report_filePath'],'a+') as f:
-                    f.write('\nepoch:{}\n'.format(epoch))
-                self.train(module)
-                knn_features,knn_labels = self.validation(module)
-                self.test(module,knn_features,knn_labels)
+        module = Net(self.nn_config)
+        if self.nn_config['cuda'] and tr.cuda.is_available():
+            module.cuda()
+        for epoch in range(self.nn_config['epoch']):
+            with open(self.nn_config['report_filePath'],'a+') as f:
+                f.write('\nepoch:{}\n'.format(epoch))
+            self.train(module)
+            knn_features,knn_labels = self.validation(module)
+            self.test(module,knn_features,knn_labels)
 
 
     def train(self,module):
@@ -114,8 +112,6 @@ class Cascading:
             pred_labels = self.prediction(score.data.numpy())
             knn_features, knn_labels = self.knn_matrix_generator(y_.numpy().astype('float32'), pred_labels, X.numpy())
             f1, accuracy = self.metrics(y_.numpy().astype('float32'), pred_labels)
-            # f.write('Validation: loss:{:.4f}, accuracy:{:.4f}, f1:{:.4f}\n'.format(float(loss.data.numpy()), float(f1), float(accuracy)))
-            # f.flush()
         #f.close()
         return knn_features,knn_labels
 
