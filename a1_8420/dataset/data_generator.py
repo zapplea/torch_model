@@ -5,7 +5,7 @@ import numpy as np
 
 class DataGenerator:
     def generator(self):
-        with open('optdigits.tes') as f:
+        with open('uci_optdigits/optdigits.tes') as f:
             data=[]
             for line in f:
                 ls = line.split(',')
@@ -22,7 +22,7 @@ class DataGenerator:
             test_features = np.array(test_features,dtype='float32')
             test_labels = np.array(test_labels,dtype='int64')
 
-        with open('optdigits.tra') as f:
+        with open('uci_optdigits/optdigits.tra') as f:
             data = []
             for line in f:
                 ls = line.split(',')
