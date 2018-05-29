@@ -4,6 +4,9 @@ import numpy as np
 import sklearn.metrics
 
 class Net(tr.nn.Module):
+    """
+    computation graph of Prototypical Network
+    """
     def __init__(self,nn_config,**kwargs):
         super(Net,self).__init__()
         self.nn_config = nn_config
@@ -15,16 +18,26 @@ class Net(tr.nn.Module):
             self.linear1.bias = tr.nn.Parameter(kwargs['bias_initial'], requires_grad=True)
 
     def forward_nonlinear(self,X):
+        """
+        The nonlinear function. It maps embedding of images to anonther embedding space
+        :param X: 
+        :return: 
+        """
         linear_layer1 = self.linear1(X)
         hidden_layer = F.tanh(linear_layer1)
         return hidden_layer
 
     def forward_sample(self,X):
+        """
+        mapping the query image to another embedding space.
+        :param X: 
+        :return: 
+        """
         return self.forward_nonlinear(X)
 
     def forward_prot(self,C):
         """
-        
+        mapping support images to another embedding space and  calculate prototype for each class.
         :param C: shape = (labels number, k_shot, feature dim)
         :return: 
         """
@@ -36,7 +49,12 @@ class Net(tr.nn.Module):
         return C
 
     def forward_softmax(self,X,C):
-
+        """
+        It calculate to which class each image belongs.
+        :param X: query image
+        :param C: prototypes of all classes
+        :return: 
+        """
         X = self.forward_sample(X)
         # shape = (batch size, 1, hidden layer dim)
         X = tr.unsqueeze(X,dim=1)
@@ -49,11 +67,20 @@ class Net(tr.nn.Module):
         return score
 
     def cross_entropy_loss(self,input,target):
+        """
+        loss function
+        :param input: 
+        :param target: 
+        :return: 
+        """
         input = tr.log(input)
         loss = tr.nn.NLLLoss(size_average=True,reduce=True)
         return loss(input,target)
 
 class ImgCompNet(tr.nn.Module):
+    """
+    computation graph of Shared Weights Network
+    """
     def __init__(self,nn_config):
         super(ImgCompNet,self).__init__()
         self.nn_config = nn_config
@@ -64,12 +91,21 @@ class ImgCompNet(tr.nn.Module):
 
 
     def compress_img(self, X):
+        """
+        compress image and decode it.
+        :param X: 
+        :return: 
+        """
         self.weight_average()
         hidden_layer = F.tanh(self.linear1(X))
         hidden_layer = self.linear2(hidden_layer)
         return hidden_layer
 
     def weight_average(self):
+        """
+        Average value of weights in linear1 and linear2 to let them share weights
+        :return: 
+        """
         average = tr.div(tr.add(self.linear1.weight.data,self.linear2.weight.t().data),2)
         self.linear1.weight.data=average
         self.linear2.weight.data=average.t()
@@ -77,6 +113,7 @@ class ImgCompNet(tr.nn.Module):
 
     def MSE_loss(self, input, target):
         """
+        Calcualte difference between original image and the predicted image. This is loss function
         :param X: shape=(batch size, feature dim)
         :param de_X: 
         :return: 
@@ -91,10 +128,19 @@ class PrototypicalNet:
         self.df = df
 
     def optimizer(self,model):
+        """
+        optimizer
+        :param model: 
+        :return: 
+        """
         optim = tr.optim.SGD(model.parameters(),lr=self.nn_config['lr'],weight_decay=self.nn_config['weight_decay'])
         return optim
 
     def classifier(self):
+        """
+        run the prototypical network to perform classification
+        :return: 
+        """
         if self.nn_config['is_share_weight']:
             # train the shared-weight network
             module=ImgCompNet(self.nn_config)
@@ -120,6 +166,11 @@ class PrototypicalNet:
 
 
     def train_compress(self,module):
+        """
+        Train shared weights network
+        :param module: 
+        :return: 
+        """
         dataiter = self.df.train_feeder()
         optim = self.optimizer(module)
         for X, _ in dataiter:
@@ -132,6 +183,11 @@ class PrototypicalNet:
             optim.step()
 
     def train_proto(self,module):
+        """
+        train prototypical network
+        :param module: 
+        :return: 
+        """
         dataiter = self.df.train_feeder()
         C = tr.FloatTensor(self.df.prototype_feeder(self.nn_config['k_shot']))
         optim = self.optimizer(module)
@@ -147,10 +203,21 @@ class PrototypicalNet:
 
 
     def prediction(self,score):
+        """
+        predict to which class the image belongs based on its score
+        :param score: 
+        :return: 
+        """
         pred_labels = np.argmax(score,axis=1).astype('float32')
         return pred_labels
 
     def metrics(self,true_labels,pred_labels):
+        """
+        calculate f1 score and accuracy to evaluate the networks' performance
+        :param true_labels: 
+        :param pred_labels: 
+        :return: 
+        """
         true_labels =list(true_labels)
         pred_labels = list(pred_labels)
         f1 = sklearn.metrics.f1_score(y_true=true_labels,y_pred=pred_labels, average='macro')
@@ -158,6 +225,11 @@ class PrototypicalNet:
         return f1,accuracy
 
     def test_proto(self,module):
+        """
+        test the prototyical network
+        :param module: 
+        :return: 
+        """
         f=open(self.nn_config['report_filePath'],'a+')
         test_data =self.df.test_feeder()
         C = tr.FloatTensor(self.df.prototype_feeder(self.nn_config['k_shot']))

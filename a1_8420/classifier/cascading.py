@@ -5,6 +5,9 @@ import sklearn.metrics
 import sklearn.neighbors
 
 class Net(tr.nn.Module):
+    """
+    computation graph of Cascading Network
+    """
     def __init__(self,nn_config):
         super(Net,self).__init__()
         self.nn_config = nn_config
@@ -13,27 +16,55 @@ class Net(tr.nn.Module):
         self.linear = tr.nn.Linear(in_dim,out_dim,bias=True)
 
     def forward(self,X):
+        """
+        parametric linear model in cascading network used to learn ruels. 
+        input image to linear layer and then use softmax to calculate distribute of the image over each class.
+        :param X: 
+        :return: 
+        """
         # linear_layer = self.linear(X)
         linear_layer = self.linear(X)
         score = F.softmax(linear_layer,dim=1)
         return score
 
     def cross_entropy_loss(self,input,target):
+        """
+        calculate loss for result of softmax.
+        :param input: 
+        :param target: 
+        :return: 
+        """
         input = tr.log(input)
         loss = tr.nn.NLLLoss(size_average=True,reduce=True)
         return loss(input,target)
 
 class Cascading:
     def __init__(self,nn_config,df):
+        """
+        The cascading classifier learn a parametric linear model and a non-parametric K-NN. first use training dataset to train the linear 
+        model. Then use support dataset (or validation dataset) to test the linear model. If probability of the image over each class is smaller 
+        than a theta (here equal to 0.6), then the image will be rejected by the linear model and given to K-NN. The K-NN will use exceptions whose 
+        classes are know as support points to classify a query image. During test, we use writer independent model to test it. First the image 
+        in test will be input into linear model to predict its class. Then if the linear model reject the test image, we use K-NN to classify.
+        """
         self.nn_config = nn_config
         self.df = df
 
     def optimizer(self,module):
+        """
+        optimizer
+        :param module: 
+        :return: 
+        """
         optim = tr.optim.SGD(module.parameters(),lr=self.nn_config['lr'],weight_decay=self.nn_config['weight_decay'])
         return optim
 
     def prediction(self,score):
-        # TODO: need to use u>theta to compute which is predicted label
+        """
+        predict to which class the image belongs for linear model in cascading network.
+        :param score: 
+        :return: 
+        """
         condition = np.greater_equal(score,np.array(self.nn_config['theta'],dtype='float32'))
         score = np.where(condition,score,np.zeros_like(score,dtype='float32'))
         pred_labels=[]
@@ -46,6 +77,12 @@ class Cascading:
         return np.array(pred_labels,dtype='float32')
 
     def metrics(self,true_labels,pred_labels):
+        """
+        calculate f1 score and accuracy to evaluate the networks' performance
+        :param true_labels: 
+        :param pred_labels: 
+        :return: 
+        """
         true_labels = list(true_labels)
         pred_labels = list(pred_labels)
         true_ls = []
@@ -63,6 +100,10 @@ class Cascading:
         return f1,accuracy
 
     def classifier(self):
+        """
+        run the cascading network to perform classification.
+        :return: 
+        """
         module = Net(self.nn_config)
         if self.nn_config['cuda'] and tr.cuda.is_available():
             module.cuda()
@@ -75,6 +116,11 @@ class Cascading:
 
 
     def train(self,module):
+        """
+        Train the cascading network's linear model.
+        :param module: 
+        :return: 
+        """
         dataiter = self.df.train_feeder()
         optim = self.optimizer(module)
         for X,y_ in dataiter:
@@ -88,6 +134,13 @@ class Cascading:
             optim.step()
 
     def knn_matrix_generator(self,true_lables,pred_labels,X):
+        """
+        accept exceptions rejected by linear model.
+        :param true_lables: 
+        :param pred_labels: 
+        :param X: 
+        :return: 
+        """
         knn_features = []
         knn_labels = []
         for i in range(pred_labels.shape[0]):
@@ -97,7 +150,12 @@ class Cascading:
         return knn_features,knn_labels
 
     def validation(self,module):
-        #f = open(self.nn_config['report_filePath'],'a+')
+        """
+        The function uses support examples to test the the linear model. If a example is rejected by the linear model when its probability
+        over each class is smaller than 0.6, it will be given K-NN as exceptions. 
+        :param module: 
+        :return: 
+        """
         dataiter = self.df.validation_feeder()
         for X,y_ in dataiter:
             if self.nn_config['cuda'] and tr.cuda.is_available():
@@ -112,10 +170,17 @@ class Cascading:
             pred_labels = self.prediction(score.data.numpy())
             knn_features, knn_labels = self.knn_matrix_generator(y_.numpy().astype('float32'), pred_labels, X.numpy())
             f1, accuracy = self.metrics(y_.numpy().astype('float32'), pred_labels)
-        #f.close()
         return knn_features,knn_labels
 
     def knn(self,knn_features,knn_labels,X,pred_labels):
+        """
+        A K nearest neighbor algorithm that classifiy exceptions reject by linear model when test with writer independent images.
+        :param knn_features: 
+        :param knn_labels: 
+        :param X: 
+        :param pred_labels: 
+        :return: 
+        """
         exceptions = []
         exceptions_index = []
         for i in range(pred_labels.shape[0]):
@@ -131,6 +196,13 @@ class Cascading:
         return pred_labels
 
     def test(self,module,knn_features,knn_labels):
+        """
+        Test the cascadingng classifier
+        :param module: 
+        :param knn_features: 
+        :param knn_labels: 
+        :return: 
+        """
         f=open(self.nn_config['report_filePath'],'a+')
         test_data =self.df.test_feeder()
         for X, y_ in test_data:
