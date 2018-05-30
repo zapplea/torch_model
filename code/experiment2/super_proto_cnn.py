@@ -62,6 +62,7 @@ class Net(tr.nn.Module):
         """
         print('X: ',X.size())
         conv = self.forward_cnn(X)
+        print('before linear conv: ',conv.size())
         return self.forward_nonlinear(conv)
 
     def forward_prot(self,C):

@@ -65,7 +65,7 @@ class Net(tr.nn.Module):
         :param C: shape = (labels number, k_shot, feature height dim, feature width dim)
         :return: (labels dim, k shot, connect_feature dim)
         """
-        C = C.view(-1,self.nn_config['feature_height_dim'],self.nn_config['feature_width_dim'],1)
+        C = C.view(-1,1,self.nn_config['feature_height_dim'],self.nn_config['feature_width_dim'],1)
         # shape = (labels dim* k shot, cnn_feature_dim)
         C = self.forward_cnn(C)
         # shape = (labels dim*k shot, connect_feature_dim)
@@ -284,7 +284,7 @@ class SuperPrototypicalNet:
                 X,y_,C,U = X.cuda(),y_.cuda(),C.cuda(),U.cuda()
             X = tr.unsqueeze(X, dim=1)
             U = tr.unsqueeze(U, dim=1)
-            C = tr.unsqueeze(C, dim=1)
+            C = tr.unsqueeze(C, dim=2)
             optim.zero_grad()
             score = module.forward_softmax(tr.autograd.Variable(X,requires_grad=False),
                                            tr.autograd.Variable(C,requires_grad=False),
@@ -331,7 +331,7 @@ class SuperPrototypicalNet:
                 X,y_,C,U = X.cuda(),y_.cuda(),C.cuda(),U.cuda()
             X = tr.unsqueeze(X, dim=1)
             U = tr.unsqueeze(U, dim=1)
-            C = tr.unsqueeze(C, dim=1)
+            C = tr.unsqueeze(C, dim=2)
 
             score = module.forward_softmax(tr.autograd.Variable(X, requires_grad=False),
                                            tr.autograd.Variable(C, requires_grad=False),

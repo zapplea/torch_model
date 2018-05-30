@@ -65,7 +65,7 @@ class Net(tr.nn.Module):
         :param C: shape = (labels number, k_shot, feature dim)
         :return: 
         """
-        C = C.view(-1,self.nn_config['feature_height_dim'],self.nn_config['feature_width_dim'],1)
+        C = C.view(-1,1,self.nn_config['feature_height_dim'],self.nn_config['feature_width_dim'],1)
         C = self.forward_cnn(C)
         C = self.forward_nonlinear(C)
         C = C.view(self.nn_config['label_dim'],self.nn_config['k_shot'],self.nn_config['connect_layer_dim'])
@@ -222,7 +222,7 @@ class SuperPrototypicalNet:
             if self.nn_config['cuda'] and tr.cuda.is_available():
                 X,y_,C = X.cuda(),y_.cuda(),C.cuda()
             X = tr.unsqueeze(X, dim=1)
-            C = tr.unsqueeze(C, dim=1)
+            C = tr.unsqueeze(C, dim=2)
             optim.zero_grad()
             score = module.forward_softmax(tr.autograd.Variable(X,requires_grad=False),
                                            tr.autograd.Variable(C,requires_grad=False))
@@ -267,7 +267,7 @@ class SuperPrototypicalNet:
             if self.nn_config['cuda'] and tr.cuda.is_available():
                 X,y_,C = X.cuda(),y_.cuda(),C.cuda()
             X = tr.unsqueeze(X, dim=1)
-            C = tr.unsqueeze(C, dim=1)
+            C = tr.unsqueeze(C, dim=2)
             score = module.forward_softmax(tr.autograd.Variable(X, requires_grad=False),
                                            tr.autograd.Variable(C, requires_grad=False))
             loss = module.cross_entropy_loss(score, tr.autograd.Variable(y_.long(), requires_grad=False))
