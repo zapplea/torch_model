@@ -32,8 +32,11 @@ class Net(tr.nn.Module):
             self.linear1.bias = tr.nn.Parameter(kwargs['bias_initial'], requires_grad=True)
 
     def forward_cnn(self,X):
+        print('before conv1')
         cnn_layer1 = self.conv1(X)
+        print('before conv2')
         cnn_layer2 = self.conv2(cnn_layer1)
+        print('before fully connect')
         height = cnn_layer2.size()[0]
         width = cnn_layer2.size()[1]
         depth = cnn_layer2.size()[2]
@@ -56,7 +59,9 @@ class Net(tr.nn.Module):
         :param X: 
         :return: 
         """
+        print('before conv1')
         conv = self.forward_cnn(X)
+        print('after conv1')
         return self.forward_nonlinear(conv)
 
     def forward_prot(self,C):
