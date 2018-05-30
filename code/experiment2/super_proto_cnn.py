@@ -32,8 +32,12 @@ class Net(tr.nn.Module):
             self.linear1.bias = tr.nn.Parameter(kwargs['bias_initial'], requires_grad=True)
 
     def forward_cnn(self,X):
+        print('conv1')
         cnn_layer1 = self.conv1(X)
+        print('cnn_layer1: ',cnn_layer1.size())
+        print('conv2')
         cnn_layer2 = self.conv2(cnn_layer1)
+        print('cnn_layer2: ',cnn_layer2.size())
         height = cnn_layer2.size()[0]
         width = cnn_layer2.size()[1]
         depth = cnn_layer2.size()[2]
