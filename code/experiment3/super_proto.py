@@ -213,9 +213,10 @@ class SuperPrototypicalNet:
         :return: 
         """
         dataiter = self.df.query_feeder()
-        C = tr.FloatTensor(self.df.prototype_feeder())
+
         optim = self.optimizer(module)
         for X,y_ in dataiter:
+            C = tr.FloatTensor(self.df.prototype_feeder())
             if self.nn_config['cuda'] and tr.cuda.is_available():
                 X,y_,C = X.cuda(),y_.cuda(),C.cuda()
             X = tr.unsqueeze(X, dim=1)
@@ -258,9 +259,10 @@ class SuperPrototypicalNet:
         """
         f=open(self.nn_config['report_filePath'],'a+')
         test_data =self.df.test_feeder()
-        C = tr.FloatTensor(self.df.prototype_feeder())
+
 
         for X, y_ in test_data:
+            C = tr.FloatTensor(self.df.prototype_feeder())
             if self.nn_config['cuda'] and tr.cuda.is_available():
                 X,y_,C = X.cuda(),y_.cuda(),C.cuda()
             X = tr.unsqueeze(X, dim=1)
