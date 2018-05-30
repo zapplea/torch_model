@@ -54,7 +54,6 @@ class Net(tr.nn.Module):
         :return: 
         """
         conv = self.forward_cnn(X)
-        print('conv: ',conv.size())
         return self.forward_nonlinear(conv)
 
     def forward_prot(self,C):
@@ -250,8 +249,6 @@ class SuperPrototypicalNet:
             loss = module.cross_entropy_loss(score,tr.autograd.Variable(y_,requires_grad=False))
             loss.backward()
             optim.step()
-            print('one epoch')
-            exit()
 
 
     def prediction(self,score):

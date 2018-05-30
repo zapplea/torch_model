@@ -16,21 +16,6 @@ if __name__ =="__main__":
                    }
 
     nn_configs =[
-        # {'cnn_feature_dim': 7 * 7 * 64,
-        #  'connect_layer_dim': 1024,
-        #  'feature_height_dim': 28,  # height of input images
-        #  'feature_width_dim': 28,  # width of input images
-        #  'label_dim': 10,
-        #  'lr': 0.03,
-        #  'weight_decay': 0.00003,
-        #  'epoch': 60,
-        #  'mod': 20,
-        #  'batch_size': seed['batch_size'],
-        #  'report_filePath': '../report/report2',
-        #  'cuda': True,
-        #  'k_shot': 50,
-        #  'is_share_weight': False},
-
         {'cnn_feature_dim': 7*7*64,
          'connect_layer_dim': 1024,
          'feature_height_dim': 28,  # height of input images
@@ -46,6 +31,21 @@ if __name__ =="__main__":
          'cuda': True,
          'k_shot': 50,
          'is_share_weight': True},
+        
+        {'cnn_feature_dim': 7 * 7 * 64,
+         'connect_layer_dim': 1024,
+         'feature_height_dim': 28,  # height of input images
+         'feature_width_dim': 28,  # width of input images
+         'label_dim': 10,
+         'lr': 0.03,
+         'weight_decay': 0.00003,
+         'epoch': 60,
+         'mod': 20,
+         'batch_size': seed['batch_size'],
+         'report_filePath': '../report/report2',
+         'cuda': True,
+         'k_shot': 50,
+         'is_share_weight': False},
         ]
     print('running ...')
     for i in range(len(nn_configs)):
