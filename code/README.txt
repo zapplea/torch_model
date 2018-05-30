@@ -6,9 +6,9 @@ package list:
 
 
 Dataset:
-the dataset is provided in /code/dataset which is the same to what is provided in u6068252/dataset. I write "data_generator.py" to split features and labels, and convert them to numpy array and store them in data.pkl.
-data.pkl is a pickle file.
-You can use "python3 data_generator.py" to run it.
+the dataset is provided in /code/dataset. They are used for experiments.
+The UCI digits dataset is stored in data.pkl, I have changed nothing and just make it easy read. For MNIST, it is stored in data_mnist.pkl and the same
+operation is worked on it.
 
 Structure of the program:
 It's composed of three experiments which are corresponding to three experiments in the paper.
@@ -29,7 +29,7 @@ in Experiment2:
 you can type "python3 cnn_learn.py" to run "super_proto_cnn.py"; and "super_proto_linear.py" can be run with "python3 linear_learn.py".
 
 in Experiment3:
-Type "python3 semi_learn.py" to run semi_proto
+Type "python3 semi_learn.py" to run "semi_proto.py"; and "python3 super_learn.py" to run "super_proto.py"
 
 The warnining thrown by sklearn are not a error, it is because of poor performance of the neural network at the beginning.
 

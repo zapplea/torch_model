@@ -28,7 +28,7 @@ if __name__ =="__main__":
          'batch_size': seed['batch_size'],
          'test_data_len': 250,
          'report_filePath': '../report/report3',
-         'cuda': False,
+         'cuda': True,
          'k_shot': 5,
          'is_share_weight': False},
         ]
