@@ -174,7 +174,7 @@ class SuperPrototypicalNet:
         :param module: 
         :return: 
         """
-        dataiter = self.df.train_feeder()
+        dataiter = self.df.query_feeder()
         optim = self.optimizer(module)
         for X, _ in dataiter:
             if self.nn_config['cuda'] and tr.cuda.is_available():
@@ -191,7 +191,7 @@ class SuperPrototypicalNet:
         :param module: 
         :return: 
         """
-        dataiter = self.df.train_feeder()
+        dataiter = self.df.query_feeder()
         C = tr.FloatTensor(self.df.prototype_feeder(self.nn_config['k_shot']))
         optim = self.optimizer(module)
         for X,y_ in dataiter:
