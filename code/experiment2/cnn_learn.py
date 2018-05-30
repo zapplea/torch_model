@@ -28,7 +28,7 @@ if __name__ =="__main__":
          'mod': 20,
          'batch_size': seed['batch_size'],
          'report_filePath': '../report/report2',
-         'cuda': False,
+         'cuda': True,
          'k_shot': 50,
          'is_share_weight': True},
 
@@ -43,7 +43,7 @@ if __name__ =="__main__":
          'mod': 20,
          'batch_size': seed['batch_size'],
          'report_filePath': '../report/report2',
-         'cuda': False,
+         'cuda': True,
          'k_shot': 50,
          'is_share_weight': False},
         ]
