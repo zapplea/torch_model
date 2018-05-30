@@ -1,0 +1,120 @@
+epoch:0
+Test: loss:1.3696, accuracy:0.8495, f1:0.8520
+epoch:1
+Test: loss:1.2890, accuracy:0.8536, f1:0.8560
+epoch:2
+Test: loss:1.1946, accuracy:0.8450, f1:0.8480
+epoch:3
+Test: loss:1.0916, accuracy:0.8455, f1:0.8480
+epoch:4
+Test: loss:0.9849, accuracy:0.8456, f1:0.8480
+epoch:5
+Test: loss:0.8818, accuracy:0.8420, f1:0.8440
+epoch:6
+Test: loss:0.7877, accuracy:0.8462, f1:0.8480
+epoch:7
+Test: loss:0.7057, accuracy:0.8462, f1:0.8480
+epoch:8
+Test: loss:0.6375, accuracy:0.8462, f1:0.8480
+epoch:9
+Test: loss:0.5796, accuracy:0.8584, f1:0.8600
+epoch:10
+Test: loss:0.5354, accuracy:0.8584, f1:0.8600
+epoch:11
+Test: loss:0.4978, accuracy:0.8586, f1:0.8600
+epoch:12
+Test: loss:0.4703, accuracy:0.8624, f1:0.8640
+epoch:13
+Test: loss:0.4511, accuracy:0.8624, f1:0.8640
+epoch:14
+Test: loss:0.4332, accuracy:0.8662, f1:0.8680
+epoch:15
+Test: loss:0.4204, accuracy:0.8662, f1:0.8680
+epoch:16
+Test: loss:0.4094, accuracy:0.8662, f1:0.8680
+epoch:17
+Test: loss:0.4016, accuracy:0.8662, f1:0.8680
+epoch:18
+Test: loss:0.3953, accuracy:0.8662, f1:0.8680
+epoch:19
+Test: loss:0.3910, accuracy:0.8701, f1:0.8720
+epoch:20
+Test: loss:0.3872, accuracy:0.8701, f1:0.8720
+epoch:21
+Test: loss:0.3845, accuracy:0.8701, f1:0.8720
+epoch:22
+Test: loss:0.3820, accuracy:0.8663, f1:0.8680
+epoch:23
+Test: loss:0.3794, accuracy:0.8701, f1:0.8720
+epoch:24
+Test: loss:0.3777, accuracy:0.8739, f1:0.8760
+epoch:25
+Test: loss:0.3759, accuracy:0.8739, f1:0.8760
+epoch:26
+Test: loss:0.3754, accuracy:0.8739, f1:0.8760
+epoch:27
+Test: loss:0.3740, accuracy:0.8739, f1:0.8760
+epoch:28
+Test: loss:0.3726, accuracy:0.8783, f1:0.8800
+epoch:29
+Test: loss:0.3715, accuracy:0.8783, f1:0.8800
+epoch:30
+Test: loss:0.3717, accuracy:0.8784, f1:0.8800
+epoch:31
+Test: loss:0.3711, accuracy:0.8784, f1:0.8800
+epoch:32
+Test: loss:0.3709, accuracy:0.8784, f1:0.8800
+epoch:33
+Test: loss:0.3708, accuracy:0.8784, f1:0.8800
+epoch:34
+Test: loss:0.3710, accuracy:0.8784, f1:0.8800
+epoch:35
+Test: loss:0.3707, accuracy:0.8784, f1:0.8800
+epoch:36
+Test: loss:0.3699, accuracy:0.8784, f1:0.8800
+epoch:37
+Test: loss:0.3695, accuracy:0.8784, f1:0.8800
+epoch:38
+Test: loss:0.3695, accuracy:0.8784, f1:0.8800
+epoch:39
+Test: loss:0.3701, accuracy:0.8784, f1:0.8800
+epoch:40
+Test: loss:0.3702, accuracy:0.8828, f1:0.8840
+epoch:41
+Test: loss:0.3704, accuracy:0.8828, f1:0.8840
+epoch:42
+Test: loss:0.3707, accuracy:0.8828, f1:0.8840
+epoch:43
+Test: loss:0.3710, accuracy:0.8828, f1:0.8840
+epoch:44
+Test: loss:0.3710, accuracy:0.8828, f1:0.8840
+epoch:45
+Test: loss:0.3711, accuracy:0.8828, f1:0.8840
+epoch:46
+Test: loss:0.3719, accuracy:0.8828, f1:0.8840
+epoch:47
+Test: loss:0.3718, accuracy:0.8828, f1:0.8840
+epoch:48
+Test: loss:0.3725, accuracy:0.8828, f1:0.8840
+epoch:49
+Test: loss:0.3728, accuracy:0.8828, f1:0.8840
+epoch:50
+Test: loss:0.3732, accuracy:0.8828, f1:0.8840
+epoch:51
+Test: loss:0.3733, accuracy:0.8828, f1:0.8840
+epoch:52
+Test: loss:0.3740, accuracy:0.8828, f1:0.8840
+epoch:53
+Test: loss:0.3743, accuracy:0.8828, f1:0.8840
+epoch:54
+Test: loss:0.3744, accuracy:0.8828, f1:0.8840
+epoch:55
+Test: loss:0.3749, accuracy:0.8828, f1:0.8840
+epoch:56
+Test: loss:0.3754, accuracy:0.8828, f1:0.8840
+epoch:57
+Test: loss:0.3755, accuracy:0.8872, f1:0.8880
+epoch:58
+Test: loss:0.3756, accuracy:0.8872, f1:0.8880
+epoch:59
+Test: loss:0.3758, accuracy:0.8872, f1:0.8880

@@ -1,0 +1,120 @@
+ProtoNet_epoch:0
+Test: loss:0.5887, accuracy:0.8981, f1:0.8982
+ProtoNet_epoch:1
+Test: loss:0.4812, accuracy:0.9092, f1:0.9093
+ProtoNet_epoch:2
+Test: loss:0.4330, accuracy:0.9115, f1:0.9115
+ProtoNet_epoch:3
+Test: loss:0.3961, accuracy:0.9183, f1:0.9182
+ProtoNet_epoch:4
+Test: loss:0.3713, accuracy:0.9205, f1:0.9204
+ProtoNet_epoch:5
+Test: loss:0.3546, accuracy:0.9228, f1:0.9226
+ProtoNet_epoch:6
+Test: loss:0.3391, accuracy:0.9279, f1:0.9277
+ProtoNet_epoch:7
+Test: loss:0.3277, accuracy:0.9299, f1:0.9299
+ProtoNet_epoch:8
+Test: loss:0.3202, accuracy:0.9279, f1:0.9277
+ProtoNet_epoch:9
+Test: loss:0.3121, accuracy:0.9296, f1:0.9293
+ProtoNet_epoch:10
+Test: loss:0.3051, accuracy:0.9274, f1:0.9271
+ProtoNet_epoch:11
+Test: loss:0.2997, accuracy:0.9308, f1:0.9304
+ProtoNet_epoch:12
+Test: loss:0.2933, accuracy:0.9284, f1:0.9282
+ProtoNet_epoch:13
+Test: loss:0.2889, accuracy:0.9279, f1:0.9277
+ProtoNet_epoch:14
+Test: loss:0.2876, accuracy:0.9285, f1:0.9282
+ProtoNet_epoch:15
+Test: loss:0.2837, accuracy:0.9291, f1:0.9288
+ProtoNet_epoch:16
+Test: loss:0.2792, accuracy:0.9290, f1:0.9288
+ProtoNet_epoch:17
+Test: loss:0.2785, accuracy:0.9307, f1:0.9304
+ProtoNet_epoch:18
+Test: loss:0.2751, accuracy:0.9301, f1:0.9299
+ProtoNet_epoch:19
+Test: loss:0.2763, accuracy:0.9303, f1:0.9299
+ProtoNet_epoch:20
+Test: loss:0.2723, accuracy:0.9285, f1:0.9282
+ProtoNet_epoch:21
+Test: loss:0.2698, accuracy:0.9279, f1:0.9277
+ProtoNet_epoch:22
+Test: loss:0.2681, accuracy:0.9290, f1:0.9288
+ProtoNet_epoch:23
+Test: loss:0.2664, accuracy:0.9284, f1:0.9282
+ProtoNet_epoch:24
+Test: loss:0.2641, accuracy:0.9302, f1:0.9299
+ProtoNet_epoch:25
+Test: loss:0.2628, accuracy:0.9296, f1:0.9293
+ProtoNet_epoch:26
+Test: loss:0.2619, accuracy:0.9290, f1:0.9288
+ProtoNet_epoch:27
+Test: loss:0.2623, accuracy:0.9291, f1:0.9288
+ProtoNet_epoch:28
+Test: loss:0.2600, accuracy:0.9307, f1:0.9304
+ProtoNet_epoch:29
+Test: loss:0.2590, accuracy:0.9301, f1:0.9299
+ProtoNet_epoch:30
+Test: loss:0.2585, accuracy:0.9330, f1:0.9327
+ProtoNet_epoch:31
+Test: loss:0.2589, accuracy:0.9302, f1:0.9299
+ProtoNet_epoch:32
+Test: loss:0.2570, accuracy:0.9319, f1:0.9316
+ProtoNet_epoch:33
+Test: loss:0.2580, accuracy:0.9335, f1:0.9332
+ProtoNet_epoch:34
+Test: loss:0.2571, accuracy:0.9319, f1:0.9316
+ProtoNet_epoch:35
+Test: loss:0.2563, accuracy:0.9319, f1:0.9316
+ProtoNet_epoch:36
+Test: loss:0.2544, accuracy:0.9335, f1:0.9332
+ProtoNet_epoch:37
+Test: loss:0.2536, accuracy:0.9324, f1:0.9321
+ProtoNet_epoch:38
+Test: loss:0.2530, accuracy:0.9331, f1:0.9327
+ProtoNet_epoch:39
+Test: loss:0.2534, accuracy:0.9319, f1:0.9316
+ProtoNet_epoch:40
+Test: loss:0.2518, accuracy:0.9341, f1:0.9338
+ProtoNet_epoch:41
+Test: loss:0.2519, accuracy:0.9324, f1:0.9321
+ProtoNet_epoch:42
+Test: loss:0.2515, accuracy:0.9325, f1:0.9321
+ProtoNet_epoch:43
+Test: loss:0.2510, accuracy:0.9336, f1:0.9332
+ProtoNet_epoch:44
+Test: loss:0.2499, accuracy:0.9347, f1:0.9343
+ProtoNet_epoch:45
+Test: loss:0.2501, accuracy:0.9336, f1:0.9332
+ProtoNet_epoch:46
+Test: loss:0.2499, accuracy:0.9346, f1:0.9343
+ProtoNet_epoch:47
+Test: loss:0.2486, accuracy:0.9352, f1:0.9349
+ProtoNet_epoch:48
+Test: loss:0.2492, accuracy:0.9341, f1:0.9338
+ProtoNet_epoch:49
+Test: loss:0.2492, accuracy:0.9330, f1:0.9327
+ProtoNet_epoch:50
+Test: loss:0.2485, accuracy:0.9347, f1:0.9343
+ProtoNet_epoch:51
+Test: loss:0.2487, accuracy:0.9347, f1:0.9343
+ProtoNet_epoch:52
+Test: loss:0.2482, accuracy:0.9346, f1:0.9343
+ProtoNet_epoch:53
+Test: loss:0.2477, accuracy:0.9336, f1:0.9332
+ProtoNet_epoch:54
+Test: loss:0.2470, accuracy:0.9341, f1:0.9338
+ProtoNet_epoch:55
+Test: loss:0.2463, accuracy:0.9352, f1:0.9349
+ProtoNet_epoch:56
+Test: loss:0.2467, accuracy:0.9336, f1:0.9332
+ProtoNet_epoch:57
+Test: loss:0.2462, accuracy:0.9336, f1:0.9332
+ProtoNet_epoch:58
+Test: loss:0.2461, accuracy:0.9336, f1:0.9332
+ProtoNet_epoch:59
+Test: loss:0.2457, accuracy:0.9347, f1:0.9343
