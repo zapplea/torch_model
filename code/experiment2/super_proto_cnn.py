@@ -56,6 +56,7 @@ class Net(tr.nn.Module):
         :param X: 
         :return: 
         """
+        print('X: ',X.size())
         conv = self.forward_cnn(X)
         return self.forward_nonlinear(conv)
 
