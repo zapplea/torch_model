@@ -109,9 +109,15 @@ class ImgCompNet(tr.nn.Module):
         super(ImgCompNet,self).__init__()
         self.nn_config = nn_config
         in_dim = self.nn_config['feature_height_dim']*self.nn_config['feature_width_dim']
+        out_dim=self.nn_config['cnn_feature_dim']
+        self.linear0=tr.nn.Linear(in_dim,out_dim,bias=True)
+        in_dim=out_dim
         out_dim = self.nn_config['connect_layer_dim']
         self.linear1 = tr.nn.Linear(in_dim,out_dim, bias=True)
         self.linear2 = tr.nn.Linear(out_dim,in_dim, bias=True)
+        in_dim=self.nn_config['cnn_feature_dim']
+        out_dim=self.nn_config['feature_height_dim']*self.nn_config['feature_width_dim']
+        self.linear3=tr.nn.Linear(in_dim,out_dim,bias=True)
 
 
     def compress_img(self, X):
@@ -134,6 +140,9 @@ class ImgCompNet(tr.nn.Module):
         average = tr.div(tr.add(self.linear1.weight.data,self.linear2.weight.t().data),2)
         self.linear1.weight.data=average
         self.linear2.weight.data=average.t()
+        average = tr.div(tr.add(self.linear0.weight.data,self.linear3.weight.t().data),2)
+        self.linear0.weight.data=average
+        self.linear3.weight.data=average.t()
 
 
     def MSE_loss(self, input, target):
