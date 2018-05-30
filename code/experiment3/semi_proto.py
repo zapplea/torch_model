@@ -79,7 +79,6 @@ class Net(tr.nn.Module):
         :return: (-1, connect feature dim)
         """
         # shape = (-1, cnn_feature_dim)
-        print('U: ', U.size())
         U = self.forward_cnn(U)
         # shape = (-1, connect_feature_dim)
         U = self.forward_nonlinear(U)
@@ -130,9 +129,7 @@ class Net(tr.nn.Module):
 
         # calcualte refined prototypes
         # shape = (num of unlabeled, connect_feature_dim)
-        print('forward')
         U = self.forward_unlabeled(U)
-        print('~forward')
         # shape = (num of unlabeled, labels num , connect feature dim)
         weight = self.partial_weight(P,U)
         # shape = (num of unlabeled, 1, connect_feature_dim)
