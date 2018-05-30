@@ -32,11 +32,8 @@ class Net(tr.nn.Module):
             self.linear1.bias = tr.nn.Parameter(kwargs['bias_initial'], requires_grad=True)
 
     def forward_cnn(self,X):
-        print('before conv1')
         cnn_layer1 = self.conv1(X)
-        print('before conv2')
         cnn_layer2 = self.conv2(cnn_layer1)
-        print('before fully connect')
         height = cnn_layer2.size()[0]
         width = cnn_layer2.size()[1]
         depth = cnn_layer2.size()[2]
@@ -59,9 +56,7 @@ class Net(tr.nn.Module):
         :param X: 
         :return: 
         """
-        print('before conv1')
         conv = self.forward_cnn(X)
-        print('after conv1')
         return self.forward_nonlinear(conv)
 
     def forward_prot(self,C):
@@ -70,7 +65,7 @@ class Net(tr.nn.Module):
         :param C: shape = (labels number, k_shot, feature dim)
         :return: 
         """
-        C = C.view(-1,self.nn_config['feature_height_dim'],self.nn_config['feature_width_dim'])
+        C = C.view(-1,self.nn_config['feature_height_dim'],self.nn_config['feature_width_dim'],1)
         C = self.forward_cnn(C)
         C = self.forward_nonlinear(C)
         C = C.view(self.nn_config['label_dim'],self.nn_config['k_shot'],self.nn_config['connect_layer_dim'])
@@ -85,13 +80,18 @@ class Net(tr.nn.Module):
         :param C: prototypes of all classes
         :return: 
         """
+        #print('query')
         X = self.forward_query(X)
+        #print('~query')
         # shape = (batch size, 1, hidden layer dim)
         X = tr.unsqueeze(X,dim=1)
         # shape = (batch size, labels num, fully connected layer dim)
         X = X.repeat(1,self.nn_config['label_dim'],1)
         # shape = (labels num, fully connected layer dim)
+        #print('prot')
+        #print('C: ',C.size())
         C = self.forward_prot(C)
+        #print('~prot')
         # shape = (batch size, labels num)
         euclidean_distance = tr.sqrt(tr.mul(tr.add(X,-C),tr.add(X,-C)).sum(2))
         score = F.softmax(-euclidean_distance,dim=1)
@@ -226,12 +226,12 @@ class SuperPrototypicalNet:
         for X,y_ in dataiter:
             if self.nn_config['cuda'] and tr.cuda.is_available():
                 X,y_,C = X.cuda(),y_.cuda(),C.cuda()
-            print('X: ', X.size())
-            print('C: ', C.size())
+            #print('X: ', X.size())
+            #print('C: ', C.size())
             X = tr.unsqueeze(X,dim=3)
             C = tr.unsqueeze(C,dim=4)
-            print('X: ', X.size())
-            print('C: ', C.size())
+            #print('X: ', X.size())
+            #print('C: ', C.size())
             optim.zero_grad()
             score = module.forward_softmax(tr.autograd.Variable(X,requires_grad=False),
                                            tr.autograd.Variable(C,requires_grad=False))
