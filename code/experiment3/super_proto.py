@@ -25,7 +25,7 @@ class Net(tr.nn.Module):
         )
         # linear: 7x7x64
         in_dim=self.nn_config['cnn_feature_dim']
-        out_dim=self.nn_config['connect_layer_dim']
+        out_dim=self.nn_config['connect_feature_dim']
         self.linear1 = tr.nn.Linear(in_dim,out_dim, bias=True)
         if self.nn_config['is_share_weight']:
             self.linear1.weight=tr.nn.Parameter(kwargs['weight_initial'],requires_grad=True)
@@ -65,7 +65,7 @@ class Net(tr.nn.Module):
         C = C.view(-1,1,self.nn_config['feature_height_dim'],self.nn_config['feature_width_dim'],1)
         C = self.forward_cnn(C)
         C = self.forward_nonlinear(C)
-        C = C.view(self.nn_config['label_dim'],self.nn_config['k_shot'],self.nn_config['connect_layer_dim'])
+        C = C.view(self.nn_config['label_dim'],self.nn_config['k_shot'],self.nn_config['connect_feature_dim'])
         # shape = (labels num, feature dim)
         C = C.mean(1)
         return C
