@@ -9,7 +9,10 @@ def main(nn_config,data_config):
 if __name__ =="__main__":
     seed = {'batch_size': 30}
     data_config = {'data_filePath': '../dataset/data_mnist_cnn.pkl',
-                   'batch_size':seed['batch_size']
+                   'batch_size':seed['batch_size'],
+                   'query_data_len': 30000,
+                   'support_data_len': 30000,
+                   'test_data_len': 10000,
                    }
 
     nn_configs =[
