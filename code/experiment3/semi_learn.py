@@ -1,5 +1,5 @@
 from data_feeder import DataFeeder
-from super_proto import SuperPrototypicalNet
+from semi_proto import SuperPrototypicalNet
 
 def main(nn_config,data_config):
     df = DataFeeder(data_config)
@@ -28,7 +28,7 @@ if __name__ =="__main__":
          'batch_size': seed['batch_size'],
          'test_data_len': 250,
          'report_filePath': '../report/report3',
-         'cuda': True,
+         'cuda': False,
          'k_shot': 5,
          'is_share_weight': False},
         ]

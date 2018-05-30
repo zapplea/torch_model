@@ -11,23 +11,25 @@ data.pkl is a pickle file.
 You can use "python3 data_generator.py" to run it.
 
 Structure of the program:
-The cascading network is mainly coded in "cascading.py" . The cascading_learn.py is used to configure hyper-parameters and arguments that control the program.
-The prototypical network is mainly coded in "prototypical.py". Similary, the prototypical_learn.py is used to configure hyper-parameters and arguments that control the program.
+It's composed of three experiments which are corresponding to three experiments in the paper.
+
 
 Configuration of each neural network:
-In "prototypical_learn.py" and "cascading_learn.py", there are hyper-parameters and arguments that control the program. They have been well defined and you don't need to change them.
+Each program is configured in a .py file named with "learn" in its name, like super_proto_learn.py in experiment1 and semi_learn.py in experiment3.
 
 How to use GPU:
-The program will use gpu when set nn_config['cuda'] to "True" in "prototypical_learn.py" and "cascading_learn.py"  and the pytorch can detect available gpu.
+The program will use gpu when set nn_config['cuda'] to "True" in configuration files.  and the pytorch can detect available gpu.
 Currently, it is false, so the program will use CPU to train.
 
 How to run the code:
-in Experiment1:
+In experiment1:
 you can type "python3 cascading_learn.py" in command line to run the cascading network, and use "python3 prototypical_learn.py" to run the prototypical network.
 The performance of cascadign network is not stable, you can re-run the program if the final accuracy or f1 socre is not appropriate.
 in Experiment2:
+you can type "python3 cnn_learn.py" to run "super_proto_cnn.py"; and "super_proto_linear.py" can be run with "python3 linear_learn.py".
 
 in Experiment3:
+Type "python3 semi_learn.py" to run semi_proto
 
 The warnining thrown by sklearn are not a error, it is because of poor performance of the neural network at the beginning.
 
