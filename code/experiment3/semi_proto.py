@@ -133,7 +133,7 @@ class Net(tr.nn.Module):
         # shape = (num of unlabeled, labels num , connect feature dim)
         weight = self.partial_weight(P,U)
         # shape = (num of unlabeled, 1, connect_feature_dim)
-        U = U.unsqueeze(U,dim=1)
+        U = tr.unsqueeze(U,dim=1)
         # shape = (num of unlabeled, label dim, connect_feature_dim)
         U = U.repeat(1,self.nn_config['label_dim'],1)
         # shape = (num of unlabeled, label dim, connect_feature_dim)
