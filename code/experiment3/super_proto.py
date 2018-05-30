@@ -258,7 +258,7 @@ class SuperPrototypicalNet:
         """
         f=open(self.nn_config['report_filePath'],'a+')
         test_data =self.df.test_feeder()
-        C = tr.FloatTensor(self.df.prototype_feeder(self.nn_config['k_shot']))
+        C = tr.FloatTensor(self.df.prototype_feeder())
 
         for X, y_ in test_data:
             if self.nn_config['cuda'] and tr.cuda.is_available():
