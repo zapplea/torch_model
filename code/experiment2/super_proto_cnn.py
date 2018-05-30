@@ -240,6 +240,7 @@ class SuperPrototypicalNet:
             loss = module.cross_entropy_loss(score,tr.autograd.Variable(y_,requires_grad=False))
             loss.backward()
             optim.step()
+            exit()
 
 
     def prediction(self,score):
