@@ -200,7 +200,7 @@ if __name__=="__main__":
                  'data_mnist_illeg_filePath':'data_mnist_illeg.pkl',
                  'Dt_threshold':10,
                  'Dp_threshold':5,
-                 'Du_threshold':10,
+                 'Du_threshold':50,
                  'test_threshold':50}
     dg = DataGenerator(data_config)
     dg.data_generator_full()
