@@ -283,6 +283,7 @@ class SuperPrototypicalNet:
             if self.nn_config['cuda'] and tr.cuda.is_available():
                 X,y_,C,U = X.cuda(),y_.cuda(),C.cuda(),U.cuda()
             X = tr.unsqueeze(X, dim=1)
+            print('epoch:  ')
             U = tr.unsqueeze(U, dim=1)
             C = tr.unsqueeze(C, dim=2)
             optim.zero_grad()
