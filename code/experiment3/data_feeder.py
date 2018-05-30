@@ -67,7 +67,7 @@ class DataFeeder:
         data = self.data['Du_features']
         print(len(data))
         for element in data:
-            print('type: ',element.shape())
+            print('type: ',element.shape)
         exit()
         return self.data['Du_features']
 
