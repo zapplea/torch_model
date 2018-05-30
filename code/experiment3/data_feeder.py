@@ -65,7 +65,7 @@ class DataFeeder:
 
     def unlabeled_feeder(self):
         data = self.data['Du_features']
-        return self.data['Du_features']
+        return np.array(self.data['Du_features'],dtype='float32')
 
     def test_feeder(self):
         dataiter = DataLoader(myDataset(self.data['test_features'],
