@@ -282,9 +282,9 @@ class SuperPrototypicalNet:
         for X,y_ in dataiter:
             if self.nn_config['cuda'] and tr.cuda.is_available():
                 X,y_,C,U = X.cuda(),y_.cuda(),C.cuda(),U.cuda()
-            X = tr.unsqueeze(X, dim=3)
-            U = tr.unsqueeze(U, dim=3)
-            C = tr.unsqueeze(C, dim=4)
+            X = tr.unsqueeze(X, dim=1)
+            U = tr.unsqueeze(U, dim=1)
+            C = tr.unsqueeze(C, dim=1)
             optim.zero_grad()
             score = module.forward_softmax(tr.autograd.Variable(X,requires_grad=False),
                                            tr.autograd.Variable(C,requires_grad=False),
@@ -329,9 +329,9 @@ class SuperPrototypicalNet:
         for X, y_ in test_data:
             if self.nn_config['cuda'] and tr.cuda.is_available():
                 X,y_,C,U = X.cuda(),y_.cuda(),C.cuda(),U.cuda()
-            X = tr.unsqueeze(X, dim=3)
-            U = tr.unsqueeze(U, dim=3)
-            C = tr.unsqueeze(C, dim=4)
+            X = tr.unsqueeze(X, dim=1)
+            U = tr.unsqueeze(U, dim=1)
+            C = tr.unsqueeze(C, dim=1)
 
             score = module.forward_softmax(tr.autograd.Variable(X, requires_grad=False),
                                            tr.autograd.Variable(C, requires_grad=False),
