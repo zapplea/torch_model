@@ -30,7 +30,7 @@ if __name__ =="__main__":
         #  'k_shot': 5,
         #  'is_share_weight': True},
 
-        {# 'cnn_feature_dim': 7*7*64,
+        {'cnn_feature_dim': 7*7*64,
          'connect_feature_dim': 1024,
          'feature_height_dim': 28,  # height of input images
          'feature_width_dim':28, # width of input images

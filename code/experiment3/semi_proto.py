@@ -24,7 +24,7 @@ class Net(tr.nn.Module):
             tr.nn.MaxPool2d(kernel_size=2, stride=2)
         )
         # linear: 7x7x64
-        in_dim=self.nn_config['cnn_layer_dim']
+        in_dim=self.nn_config['cnn_feature_dim']
         out_dim=self.nn_config['connect_layer_dim']
         self.linear1 = tr.nn.Linear(in_dim,out_dim, bias=True)
         if self.nn_config['is_share_weight']:
@@ -34,10 +34,7 @@ class Net(tr.nn.Module):
     def forward_cnn(self,X):
         cnn_layer1 = self.conv1(X)
         cnn_layer2 = self.conv2(cnn_layer1)
-        height = cnn_layer2.size()[0]
-        width = cnn_layer2.size()[1]
-        depth = cnn_layer2.size()[2]
-        cnn_layer2 = cnn_layer2.view(-1,height*width*depth)
+        cnn_layer2 = cnn_layer2.view(-1,self.nn_config['cnn_feature_dim'])
         return cnn_layer2
 
     def forward_nonlinear(self,X):
