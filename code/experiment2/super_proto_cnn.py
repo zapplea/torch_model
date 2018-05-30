@@ -24,7 +24,7 @@ class Net(tr.nn.Module):
             tr.nn.MaxPool2d(kernel_size=2, stride=2)
         )
         # linear: 7x7x64
-        in_dim=self.nn_config['cnn_layer_dim']
+        in_dim=self.nn_config['cnn_feature_dim']
         out_dim=self.nn_config['connect_layer_dim']
         self.linear1 = tr.nn.Linear(in_dim,out_dim, bias=True)
         if self.nn_config['is_share_weight']:
