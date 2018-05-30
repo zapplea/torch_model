@@ -111,7 +111,7 @@ class ImgCompNet(tr.nn.Module):
         super(ImgCompNet,self).__init__()
         self.nn_config = nn_config
         in_dim = self.nn_config['feature_height_dim']*self.nn_config['feature_width_dim']
-        out_dim = self.nn_config['connect_feature_dim']
+        out_dim = self.nn_config['connect_layer_dim']
         self.linear1 = tr.nn.Linear(in_dim,out_dim, bias=True)
         self.linear2 = tr.nn.Linear(out_dim,in_dim, bias=True)
 
