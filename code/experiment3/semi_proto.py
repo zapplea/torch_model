@@ -64,7 +64,7 @@ class Net(tr.nn.Module):
         """
         C = C.view(-1,1,self.nn_config['feature_height_dim'],self.nn_config['feature_width_dim'])
         # shape = (labels dim* k shot, cnn_feature_dim)
-        C = self.forwafrd_cnn(C)
+        C = self.forward_cnn(C)
         # shape = (labels dim*k shot, connect_feature_dim)
         C = self.forward_nonlinear(C)
         # shape = (labels dim, k shot, connect_feature_dim)
