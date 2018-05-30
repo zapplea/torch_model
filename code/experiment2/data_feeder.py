@@ -33,7 +33,7 @@ class DataFeeder:
     def query_feeder(self):
         dataiter = DataLoader(
             myDataset(self.train_features[:self.data_config['query_data_len']],
-                      self.train_labels[:self.data_config['train_data_len']]),
+                      self.train_labels[:self.data_config['query_data_len']]),
             batch_size=self.data_config['batch_size'],
             shuffle='True')
         return dataiter
@@ -45,8 +45,8 @@ class DataFeeder:
         :param k_shot: 
         :return: shape = (labels number, k_shot, feature dim)
         """
-        support_features = self.train_features[self.data_config['query_data_len']:(self.data_config['query_data_len']+self.data_config['support_data_len'])]
-        support_labels = self.train_labels[self.data_config['query_data_len']:(self.data_config['query_data_len']+self.data_config['support_data_len'])]
+        support_features = self.train_features[self.data_config['query_data_len']:(self.data_config['query_data_len']-1+self.data_config['support_data_len'])]
+        support_labels = self.train_labels[self.data_config['query_data_len']:(self.data_config['query_data_len']-1+self.data_config['support_data_len'])]
         length = len(support_features)
         prototypes_freq = {}
         prototypes = {}
