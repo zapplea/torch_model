@@ -284,6 +284,7 @@ class SuperPrototypicalNet:
                 X,y_,C,U = X.cuda(),y_.cuda(),C.cuda(),U.cuda()
             X = tr.unsqueeze(X, dim=1)
             print('epoch:  ')
+            print('U size: ',U.size())
             U = tr.unsqueeze(U, dim=1)
             C = tr.unsqueeze(C, dim=2)
             optim.zero_grad()
