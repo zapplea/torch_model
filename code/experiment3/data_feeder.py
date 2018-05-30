@@ -26,7 +26,7 @@ class DataFeeder:
         self.data = self.loader()
 
     def loader(self):
-        with open(self.data_config['cnn_data_filePath'], 'rb') as f:
+        with open(self.data_config['data_filePath'], 'rb') as f:
             data = pickle.load(f)
 
         return data
