@@ -62,7 +62,7 @@ class Net(tr.nn.Module):
         :param C: shape = (labels number, k_shot, feature dim)
         :return: 
         """
-        C = C.view(-1,1,self.nn_config['feature_height_dim'],self.nn_config['feature_width_dim'],1)
+        C = C.view(-1,1,self.nn_config['feature_height_dim'],self.nn_config['feature_width_dim'])
         C = self.forward_cnn(C)
         C = self.forward_nonlinear(C)
         C = C.view(self.nn_config['label_dim'],self.nn_config['k_shot'],self.nn_config['connect_feature_dim'])
