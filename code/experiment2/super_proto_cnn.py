@@ -108,15 +108,25 @@ class ImgCompNet(tr.nn.Module):
     def __init__(self,nn_config):
         super(ImgCompNet,self).__init__()
         self.nn_config = nn_config
+
         in_dim = self.nn_config['feature_height_dim']*self.nn_config['feature_width_dim']
         out_dim=self.nn_config['cnn_feature_dim']
+        # 784 -- > 7x7x64
         self.linear0=tr.nn.Linear(in_dim,out_dim,bias=True)
+
         in_dim=out_dim
         out_dim = self.nn_config['connect_layer_dim']
+        #7x7x64 --> 1024
         self.linear1 = tr.nn.Linear(in_dim,out_dim, bias=True)
-        self.linear2 = tr.nn.Linear(out_dim,in_dim, bias=True)
-        in_dim=self.nn_config['cnn_feature_dim']
+
+        in_dim=out_dim
+        out_dim=self.nn_config['cnn_feature_dim']
+        # 1024 --> 7x7x64
+        self.linear2 = tr.nn.Linear(in_dim,out_dim,bias=True)
+
+        in_dim=out_dim
         out_dim=self.nn_config['feature_height_dim']*self.nn_config['feature_width_dim']
+        # 7x7x64-->784
         self.linear3=tr.nn.Linear(in_dim,out_dim,bias=True)
 
 
@@ -128,9 +138,13 @@ class ImgCompNet(tr.nn.Module):
         """
         X = X.view(-1,self.nn_config['feature_height_dim']*self.nn_config['feature_width_dim'])
         self.weight_average()
-        hidden_layer = F.tanh(self.linear1(X))
-        hidden_layer = self.linear2(hidden_layer)
-        return hidden_layer
+        hidden_layer0 = self.linear0(X)
+
+        hidden_layer1 = F.tanh(self.linear1(hidden_layer0))
+
+        hidden_layer2 = self.linear2(hidden_layer1)
+        hidden_layer3 = self.linear3(hidden_layer2)
+        return hidden_layer3
 
     def weight_average(self):
         """
