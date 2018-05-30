@@ -16,11 +16,9 @@ echo "loaded"
 if test $1 = "cnn";
 then
     echo rm
-    rm ../report/report2*
     python cnn_learn.py
 elif test $1 = "linear";
 then
     echo rm report.pt
-    rm ../report/report2*
     python linear_learn.py
 fi

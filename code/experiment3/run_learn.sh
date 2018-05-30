@@ -15,10 +15,8 @@ echo "loaded"
 
 if test $1 = "super";
 then
-    rm ../report/report3*
     python super_learn.py
 elif test $1 = "semi";
 then
-    rm ../report/report3*
     python semi_learn.py
 fi

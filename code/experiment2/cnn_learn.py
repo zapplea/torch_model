@@ -31,7 +31,7 @@ if __name__ =="__main__":
          'cuda': True,
          'k_shot': 50,
          'is_share_weight': True},
-        
+
         {'cnn_feature_dim': 7 * 7 * 64,
          'connect_layer_dim': 1024,
          'feature_height_dim': 28,  # height of input images
