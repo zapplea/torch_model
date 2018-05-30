@@ -17,7 +17,7 @@ if __name__ =="__main__":
 
     nn_configs =[
         # {'cnn_feature_dim': 7 * 7 * 64,
-        #  'connect_layer_dim': 1024,
+        #  'connect_layer_dim': 784,
         #  'feature_height_dim': 28,  # height of input images
         #  'feature_width_dim': 28,  # width of input images
         #  'label_dim': 10,
@@ -32,7 +32,7 @@ if __name__ =="__main__":
         #  'is_share_weight': False},
 
         {'cnn_feature_dim': 7*7*64,
-         'connect_layer_dim': 1024,
+         'connect_layer_dim': 784,
          'feature_height_dim': 28,  # height of input images
          'feature_width_dim':28, # width of input images
          'label_dim': 10,
