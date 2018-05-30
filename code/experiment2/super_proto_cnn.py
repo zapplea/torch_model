@@ -224,7 +224,7 @@ class SuperPrototypicalNet:
             print('X: ', X.size())
             print('C: ', C.size())
             X = tr.unsqueeze(X,dim=3)
-            C = tr.unsqueeze(C,dim=3)
+            C = tr.unsqueeze(C,dim=4)
             print('X: ', X.size())
             print('C: ', C.size())
             optim.zero_grad()
@@ -272,7 +272,7 @@ class SuperPrototypicalNet:
                 X,y_,C = X.cuda(),y_.cuda(),C.cuda()
 
             X = tr.unsqueeze(X, dim=3)
-            C = tr.unsqueeze(C, dim=3)
+            C = tr.unsqueeze(C, dim=4)
             score = module.forward_softmax(tr.autograd.Variable(X, requires_grad=False),
                                            tr.autograd.Variable(C, requires_grad=False))
             loss = module.cross_entropy_loss(score, tr.autograd.Variable(y_.long(), requires_grad=False))

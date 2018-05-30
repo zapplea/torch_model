@@ -282,6 +282,9 @@ class SuperPrototypicalNet:
         for X,y_ in dataiter:
             if self.nn_config['cuda'] and tr.cuda.is_available():
                 X,y_,C,U = X.cuda(),y_.cuda(),C.cuda(),U.cuda()
+            X = tr.unsqueeze(X, dim=3)
+            U = tr.unsqueeze(U, dim=3)
+            C = tr.unsqueeze(C, dim=4)
             optim.zero_grad()
             score = module.forward_softmax(tr.autograd.Variable(X,requires_grad=False),
                                            tr.autograd.Variable(C,requires_grad=False),
@@ -322,13 +325,17 @@ class SuperPrototypicalNet:
         f=open(self.nn_config['report_filePath'],'a+')
         test_data =self.df.test_feeder()
         C = tr.FloatTensor(self.df.prototype_feeder(self.nn_config['k_shot']))
-
+        U = tr.FloatTensor(self.df.unlabeled_feeder())
         for X, y_ in test_data:
             if self.nn_config['cuda'] and tr.cuda.is_available():
-                X,y_,C = X.cuda(),y_.cuda(),C.cuda()
+                X,y_,C,U = X.cuda(),y_.cuda(),C.cuda(),U.cuda()
+            X = tr.unsqueeze(X, dim=3)
+            U = tr.unsqueeze(U, dim=3)
+            C = tr.unsqueeze(C, dim=4)
 
             score = module.forward_softmax(tr.autograd.Variable(X, requires_grad=False),
-                                           tr.autograd.Variable(C, requires_grad=False))
+                                           tr.autograd.Variable(C, requires_grad=False),
+                                           tr.autograd.Variable(U,requires_grad=False))
             loss = module.cross_entropy_loss(score, tr.autograd.Variable(y_.long(), requires_grad=False))
 
             if self.nn_config['cuda'] and tr.cuda.is_available():
