@@ -38,10 +38,7 @@ class Net(tr.nn.Module):
         print('conv2')
         cnn_layer2 = self.conv2(cnn_layer1)
         print('cnn_layer2: ',cnn_layer2.size())
-        height = cnn_layer2.size()[0]
-        width = cnn_layer2.size()[1]
-        depth = cnn_layer2.size()[2]
-        cnn_layer2 = cnn_layer2.view(-1,height*width*depth)
+        cnn_layer2 = cnn_layer2.view(-1,self.nn_config['cnn_feature_dim'])
         return cnn_layer2
 
     def forward_nonlinear(self,X):
