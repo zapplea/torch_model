@@ -101,7 +101,7 @@ class Net(tr.nn.Module):
         # shape = (number of unlabeled, labels num)
         weight = F.softmax(-euclidean_distance, dim=1)
         # shape = (num of unlabeled, labels num,1)
-        weight = weight.unsqueeze(weight,dim=2)
+        weight = tr.unsqueeze(weight,dim=2)
         # shape = (num of unlabeled, labels num , connect feature dim)
         weight = weight.repeat(1,1,self.nn_config['connect_feature_dim'])
         return weight
