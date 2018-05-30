@@ -274,7 +274,9 @@ class SuperPrototypicalNet:
         """
         dataiter = self.df.query_feeder()
         C = tr.FloatTensor(self.df.prototype_feeder())
+        print('U')
         U = tr.FloatTensor(self.df.unlabeled_feeder())
+        print('after U')
         optim = self.optimizer(module)
         for X,y_ in dataiter:
             if self.nn_config['cuda'] and tr.cuda.is_available():
