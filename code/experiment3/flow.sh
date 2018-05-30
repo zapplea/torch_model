@@ -1,4 +1,4 @@
 #!/bin/bash
 
-sbatch run_learn.sh cnn
-sbatch run_learn.sh linear
+sbatch run_learn.sh super
+sbatch run_learn.sh semi

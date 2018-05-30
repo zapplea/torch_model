@@ -13,23 +13,6 @@ if __name__ =="__main__":
                    }
 
     nn_configs =[
-        # {# 'cnn_feature_dim': 7*7*64,
-        #  'connect_feature_dim': 1024,
-        #  'feature_height_dim': 28,  # height of input images
-        #  'feature_width_dim':28, # width of input images
-        #  'label_dim': 5,
-        #  'lr': 0.00003,
-        #  'weight_decay': 0.00003,
-        #  'epoch': 60,
-        #  'comp_epoch':30,
-        #  'mod': 20,
-        #  'batch_size': seed['batch_size'],
-        #  'test_data_len': 250,
-        #  'report_filePath': '../report/report',
-        #  'cuda': False,
-        #  'k_shot': 5,
-        #  'is_share_weight': True},
-
         {'cnn_feature_dim': 7*7*64,
          'connect_feature_dim': 1024,
          'feature_height_dim': 28,  # height of input images
@@ -42,7 +25,7 @@ if __name__ =="__main__":
          'batch_size': seed['batch_size'],
          'test_data_len': 250,
          'report_filePath': '../report/report3',
-         'cuda': False,
+         'cuda': True,
          'k_shot': 5,
          'is_share_weight': False},
         ]
