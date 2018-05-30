@@ -64,6 +64,11 @@ class DataFeeder:
         return np.array(prototypes_ls, dtype='float32')
 
     def unlabeled_feeder(self):
+        data = self.data['Du_features']
+        print(len(data))
+        for element in data:
+            print('type: ',type(element))
+        exit()
         return self.data['Du_features']
 
     def test_feeder(self):
